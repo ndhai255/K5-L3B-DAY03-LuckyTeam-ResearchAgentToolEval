@@ -120,3 +120,28 @@ def test_my_new_tool_bad_input_from_model() -> None:
 
 def test_my_new_tool_failure_returns_error_dict() -> None:
     pytest.skip(TODO)
+
+# ---------------- calculator (CP3 New Tool) ----------------
+
+def test_calculator_happy_path() -> None:
+    """Test tính toán đúng cho biểu thức cơ bản."""
+    from tools.calculator.tool import calculate
+    res = calculate("(10 + 5) * 2")
+    assert res["status"] == "ok"
+    assert res["result"] == 30
+
+
+def test_calculator_empty_expression() -> None:
+    """Test xử lý chuỗi rỗng trả về dict lỗi chứ không crash."""
+    from tools.calculator.tool import calculate
+    res = calculate("   ")
+    assert res["status"] == "error"
+    assert "error" in res
+
+
+def test_calculator_division_by_zero() -> None:
+    """Test xử lý lỗi chia cho 0 an toàn."""
+    from tools.calculator.tool import calculate
+    res = calculate("100 / 0")
+    assert res["status"] == "error"
+    assert "Division by zero" in res["error"]

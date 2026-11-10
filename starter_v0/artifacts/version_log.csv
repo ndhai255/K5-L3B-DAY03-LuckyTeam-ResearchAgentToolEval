@@ -1,1 +1,6 @@
 version,author,changed_artifact,artifact_version,prompt_hash,tools_hash,reason,hypothesis,metric_before,metric_after,run_file
+version,author,changed_artifact,artifact_version,prompt_hash,tools_hash,reason,hypothesis,metric_before,metric_after,run_file
+v0,Nhom,none,v0,none,none,baseline,chay baseline ban dau,0.0,0.7,runs/...
+v1,Nhom,system_prompt.md,v1,none,none,bo huong dan xau va them routing,loai bo huong dan doan mo va them luat routing se tang routing accuracy,0.7,0.8,runs/...
+v2,Nhom,tools.yaml,v2,e3cb5028,bf1f2ee3,chuan hoa mo ta tham so tools.yaml,mo ta ro convention cac tham so va when to use giup giam wrong_arg_value,0.8,0.9,v2_B_base_openrouter_20261110T192254242999.json
+v3,Nhom,system_prompt.md,v3,cf787459,bf1f2ee3,them multi-turn carryover va confirm rule,giup giu context qua cac luot chat va bat loi confirm,0.9,0.95,v3_B_base_openrouter_20261110T192858515309.json

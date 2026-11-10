@@ -1,7 +1,289 @@
 {
   "dataset_id": "day03_v2_research_group",
   "dataset_role": "group",
-  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "description": "Bộ 10 eval cases của nhóm: 5 single-turn + 5 multi-turn, kiểm tra routing tool mới (calculator), timeframe, clarify, boundary confirm.",
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_calculator_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tính giúp mình giá trị của biểu thức: (120 - 80) * 5 / 2",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(120 - 80) * 5 / 2"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "routing_calculator",
+        "difficulty": "easy",
+        "what_it_tests": "Route đến tool calculator khi có biểu thức toán học cần tính toán."
+      }
+    },
+    {
+      "id": "G02_lookup_news_month",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tin tức công nghệ nổi bật trong tháng qua trên internet",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "arg_timeframe_month",
+        "difficulty": "medium",
+        "what_it_tests": "'trong tháng qua' -> timeframe=month, tin tức -> topic=news."
+      }
+    },
+    {
+      "id": "G03_social_search_latest",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tìm các tweet mới nhất về deep learning trên mạng xã hội",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "search_type": "Latest"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "arg_search_type_latest",
+        "difficulty": "medium",
+        "what_it_tests": "'tweet mới nhất' -> search_type=Latest."
+      }
+    },
+    {
+      "id": "G04_missing_timeline_handle",
+      "phase": "B",
+      "suite": "group",
+      "query": "Lấy 5 bài đăng gần nhất trên profile mạng xã hội",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "clarify_missing_target",
+        "difficulty": "medium",
+        "what_it_tests": "Không chỉ rõ tài khoản nào -> hỏi lại bằng clarify response_type=text."
+      }
+    },
+    {
+      "id": "G05_out_of_scope_weather",
+      "phase": "B",
+      "suite": "group",
+      "query": "Dự báo thời tiết ngày mai ở Hà Nội thế nào?",
+      "failure_type": "out_of_scope",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "metadata": {
+        "skill": "out_of_scope_weather",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi thời tiết ngoài phạm vi research -> không gọi tool, từ chối."
+      }
+    },
+    {
+      "id": "GM01_clarify_then_timeline",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Xem các bài đăng gần đây giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Của Sam Altman nhé"
+        },
+        {
+          "role": "user",
+          "content": "Lấy đúng 5 bài đăng thôi"
+        }
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_clarify_timeline",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: bổ sung handle sama và limit=5."
+      }
+    },
+    {
+      "id": "GM02_multiturn_clarify_url",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đọc nội dung bài nghiên cứu này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Link đây nhé: https://deepmind.google/research/breakthroughs"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc link đó thôi"
+        }
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://deepmind.google/research/breakthroughs"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_clarify_fetch_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: bổ sung URL cụ thể rồi fetch."
+      }
+    },
+    {
+      "id": "GM03_multiturn_timeframe_update",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm tin tức trí tuệ nhân tạo hôm nay"
+        },
+        {
+          "role": "user",
+          "content": "Mở rộng tìm trong cả tháng này xem sao"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn giữ chủ đề trí tuệ nhân tạo nhé"
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_update_timeframe",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: cập nhật timeframe từ day sang month, giữ topic=news."
+      }
+    },
+    {
+      "id": "GM04_confirm_then_send",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đăng thông báo 'Chào mừng sự kiện AI 2026' lên Telegram"
+        },
+        {
+          "role": "user",
+          "content": "Tôi xác nhận đồng ý gửi, hãy gửi ngay đi"
+        }
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_confirm_send",
+        "difficulty": "medium",
+        "what_it_tests": "2 turns: sau khi user đã xác nhận -> send với confirmed=true."
+      }
+    },
+    {
+      "id": "GM05_multiturn_calculator",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Mình cần tính toán một số liệu tài chính"
+        },
+        {
+          "role": "user",
+          "content": "Tính giúp mình (50 * 4) + 120"
+        }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(50 * 4) + 120"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_calculator",
+        "difficulty": "medium",
+        "what_it_tests": "Multi-turn gọi tool mới calculator sau lượt nói đầu."
+      }
+    }
+  ]
 }
