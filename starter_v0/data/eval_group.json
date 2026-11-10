@@ -1,7 +1,7 @@
 {
   "dataset_id": "day03_v2_research_group",
   "dataset_role": "group",
-  "description": "Bộ 10 eval cases của nhóm: 5 single-turn + 5 multi-turn, kiểm tra routing tool mới (calculator), timeframe, clarify, boundary confirm.",
+  "description": "Bộ 10 eval cases của nhóm: 5 single-turn + 5 multi-turn, kiểm tra routing cả 2 tool mới (calculator, save_note), timeframe, clarify, boundary confirm.",
   "allowed_failure_types": [
     "wrong_tool",
     "wrong_arg_value",
@@ -117,7 +117,40 @@
       }
     },
     {
-      "id": "GM01_clarify_then_timeline",
+      "id": "GM01_save_note_after_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Lưu nội dung ghi chú này vào file research_summary.md: Tóm tắt các phát hiện chính về AI."
+        },
+        {
+          "role": "user",
+          "content": "Đồng ý, hãy lưu lại."
+        }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "filename": "research_summary.md",
+              "content": "Tóm tắt các phát hiện chính về AI.",
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_save_note",
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu lưu ghi chú và xác nhận rõ ở lượt sau phải route tới save_note với confirmed=true."
+      }
+    },
+    {
+      "id": "GM02_clarify_then_timeline",
       "phase": "B",
       "suite": "group",
       "turns": [
@@ -153,7 +186,7 @@
       }
     },
     {
-      "id": "GM02_multiturn_clarify_url",
+      "id": "GM03_multiturn_clarify_url",
       "phase": "B",
       "suite": "group",
       "turns": [
@@ -188,7 +221,7 @@
       }
     },
     {
-      "id": "GM03_multiturn_timeframe_update",
+      "id": "GM04_multiturn_timeframe_update",
       "phase": "B",
       "suite": "group",
       "turns": [
@@ -221,37 +254,6 @@
         "skill": "multiturn_update_timeframe",
         "difficulty": "hard",
         "what_it_tests": "3 turns: cập nhật timeframe từ day sang month, giữ topic=news."
-      }
-    },
-    {
-      "id": "GM04_confirm_then_send",
-      "phase": "B",
-      "suite": "group",
-      "turns": [
-        {
-          "role": "user",
-          "content": "Đăng thông báo 'Chào mừng sự kiện AI 2026' lên Telegram"
-        },
-        {
-          "role": "user",
-          "content": "Tôi xác nhận đồng ý gửi, hãy gửi ngay đi"
-        }
-      ],
-      "failure_type": "wrong_boundary",
-      "expect": {
-        "tool_calls": [
-          {
-            "name": "send",
-            "args": {
-              "confirmed": true
-            }
-          }
-        ]
-      },
-      "metadata": {
-        "skill": "multiturn_confirm_send",
-        "difficulty": "medium",
-        "what_it_tests": "2 turns: sau khi user đã xác nhận -> send với confirmed=true."
       }
     },
     {
