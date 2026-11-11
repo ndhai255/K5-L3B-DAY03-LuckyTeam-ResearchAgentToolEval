@@ -7,7 +7,7 @@
 - Repo nhóm: `K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: https://github.com/ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval
 - Nhánh nộp: `main` (tổng hợp từ các nhánh tính năng)
-- Commit chốt: commit cuối cùng trên nhánh `main` trước deadline
+- Commit chốt: b5f8bad
 
 ## Thành viên
 
