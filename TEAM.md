@@ -18,13 +18,6 @@
 |   3 | Vũ Quang Hải | 2A202603935 | haivq96@gmail.com | HaiVuQ | Tool Developer — Phát triển Custom Tool `save_note` & Unit Tests |
 |   4 | Tăng Nguyễn Hải Đăng | 2A202603916 | 26ai.dangtnh@vinuni.edu.vn | haidangwork1411 | UI & Integration — Streamlit UI, UI Adapter an toàn, Transcripts & Báo cáo |
 
-> *Ghi chú nguồn xác thực thông tin cá nhân:*
-> - Cả 4 thành viên trong nhóm đã hoàn thiện đầy đủ báo cáo cá nhân và xác nhận thông tin chéo trong thư mục `report/team/`:
->   - Nguyễn Đức Hải: [`report/team/2A202603943_NguyenDucHai.md`](report/team/2A202603943_NguyenDucHai.md) (Team Leader, CP1, CP2).
->   - Nguyễn Anh Quân: [`report/team/2A202603950_NguyenAnhQuan.md`](report/team/2A202603950_NguyenAnhQuan.md) (Log Analyst & Eval Designer, CP1, CP4).
->   - Vũ Quang Hải: [`report/team/2A202603935_VuQuangHai.md`](report/team/2A202603935_VuQuangHai.md) (Tool Developer, CP3).
->   - Tăng Nguyễn Hải Đăng: [`report/team/2A202603916_TangNguyenHaiDang.md`](report/team/2A202603916_TangNguyenHaiDang.md) (UI & Integration, CP5).
-
 ## Cá nhân
 
 Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/team/` theo dạng:
