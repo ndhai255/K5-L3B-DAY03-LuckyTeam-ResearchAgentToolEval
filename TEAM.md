@@ -18,11 +18,7 @@
 |   3 | Vũ Quang Hải | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | Tool Developer — Phát triển Custom Tool `save_note` & Unit Tests |
 |   4 | Tăng Nguyễn Hải Đăng | 2A202603916 | 26ai.dangtnh@vinuni.edu.vn | haidangwork1411 | UI & Integration — Streamlit UI, UI Adapter an toàn, Transcripts & Báo cáo |
 
-> *Ghi chú nguồn xác thực thông tin cá nhân:*
-> - Nguyễn Đức Hải: GitHub `ndhai255` xác nhận từ URL repo và commit author `f9111d8`. MSSV và Email sinh viên chính thức chưa có do chưa tạo báo cáo cá nhân (`[CHƯA CÓ THÔNG TIN — Nguyễn Đức Hải]`; email commit là `ndhai255.work@gmail.com`).
-> - Nguyễn Anh Quân: MSSV `2A202603950` và Email `anhhquan511@gmail.com` xác nhận trực tiếp từ báo cáo cá nhân `report/team/2A202603950_NguyenAnhQuan.md` (nhánh `origin/feature/CP4`). Tài khoản GitHub để trống trong báo cáo (`[CHƯA CÓ THÔNG TIN — Nguyễn Anh Quân]`).
-> - Vũ Quang Hải: Chưa tạo báo cáo cá nhân (`[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]`; email trong commit `02ba4be` là `haivq25@gmail.com`).
-> - Tăng Nguyễn Hải Đăng: Toàn bộ thông tin xác nhận trực tiếp từ báo cáo cá nhân `report/team/2A202603916_TangNguyenHaiDang.md` (nhánh `feat/ui-stream-demo`).
+
 
 ## Cá nhân
 
@@ -31,8 +27,6 @@ Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/tea
 ```text
 report/team/MSSV_HoTen.md
 ```
-
-Ví dụ: `report/team/2A202603916_TangNguyenHaiDang.md`.
 
 ---
 
@@ -62,7 +56,6 @@ Ví dụ: `report/team/2A202603916_TangNguyenHaiDang.md`.
 
 ## NguyenAnhQuan-2A202603950
 
-*(Trích xuất nguyên văn từ `origin/feature/CP4:TEAM.md` và `2A202603950_NguyenAnhQuan.md`)*
 
 ### Phần việc phụ trách
 - Checkpoint: CP1, CP4
