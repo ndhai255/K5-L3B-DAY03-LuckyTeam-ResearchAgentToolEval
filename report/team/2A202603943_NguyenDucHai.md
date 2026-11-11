@@ -81,7 +81,7 @@ Mỗi version chỉ đổi một hash so với version trước (chữ đậm), 
   - `f9111d8` — "finish-CP1, CP2": `system_prompt.md`, `tools.yaml`, `version_log.csv`, 4 run JSON, B1 và B2 trong `group_report.md`.
   - `3335c7c` — merge Pull Request #1 (`feat/cp1-cp2` → `main`).
 - **Artifact:**
-  - [`starter_v0/artifacts/system_prompt.md`](../../starter_v0/artifacts/system_prompt.md) (bản v3)
+  - [`starter_v0/artifacts/system_prompt.md`](../../starter_v0/artifacts/system_prompt.md): bản v3 do mình viết nằm ở commit `f9111d8` (hash `83c2d72ee7b1`). Bản hiện tại trên `main` là v4 (hash `1bf7d3977ea9`), do thành viên CP3/CP4 bổ sung rule cho `save_note` và `calculator`.
   - [`starter_v0/artifacts/tools.yaml`](../../starter_v0/artifacts/tools.yaml) (khai báo 10 tool có sẵn là bản v2 do mình viết; khai báo tool mới do thành viên phụ trách CP3/CP4 thêm)
   - [`starter_v0/artifacts/version_log.csv`](../../starter_v0/artifacts/version_log.csv) (dòng v0–v3)
 - **Run JSON (đều hợp lệ, 20/20 case, 0 lỗi provider):**

@@ -11,7 +11,7 @@
 - Tên nhóm: **LuckyTeam**
 - Lớp: **K5-L3B**
 - Repo nhóm: `K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval`
-- URL repo: `git@github.com:ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval.git`
+- URL repo: https://github.com/ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval
 - Thành viên và phân công: xem chi tiết tại [TEAM.md](../../TEAM.md)
   - **Nguyễn Đức Hải** (Team Leader — Quản trị repo, tối ưu hóa System Prompt & Tool Schema v1–v3, Checkpoint CP1, CP2)
   - **Nguyễn Anh Quân** (Log Analyst & Eval Designer — Phân tích log lỗi benchmark, thiết kế 10 eval cases nhóm, Checkpoint CP1, CP4)
@@ -44,7 +44,15 @@ streamlit run starter_v0/app.py
 **Link dùng thử (deploy):**
 
 - **Môi trường chạy cục bộ:** Đã kiểm thử và chạy ổn định tại `http://localhost:8501`.
-- **Đường dẫn Public (Cloudflare Tunnel):** `[PENDING — Kích hoạt qua lệnh cloudflared tunnel khi thực hiện demo trực tiếp]`. Trong nhánh làm việc hiện tại, nhóm tập trung hoàn thiện và xác minh tính ổn định cục bộ, chưa khởi chạy tunnel public nhằm bảo đảm an toàn môi trường và tiết kiệm tài nguyên.
+- **Đường dẫn Public (Cloudflare Tunnel):** nhóm chưa có link public cố định. Link Cloudflare Quick Tunnel chỉ sống khi máy chạy UI còn bật, nên nhóm không ghi link cũ vào đây. Để mở link dùng thử, chạy UI rồi mở tunnel trong terminal thứ hai:
+
+```bash
+cd starter_v0
+streamlit run app.py --server.port 8501
+# terminal thứ hai:
+cloudflared tunnel --url http://localhost:8501
+# cloudflared in ra link dạng https://<random>.trycloudflare.com để gửi cho team khác
+```
 
 ### A2. Tool agent có
 
@@ -120,7 +128,7 @@ Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. 
 
 Metric = `case_accuracy` trên bộ base 20 case, provider openai `gpt-4o-mini`. Hash từng version nằm trong [`version_log.csv`](../../starter_v0/artifacts/version_log.csv). Các run v1 và v3 chỉ đổi `prompt_hash`; v2 chỉ đổi `tools_hash`.
 
-`v0`–`v3` là các run lịch sử dùng artifacts tại thời điểm chạy. `v4` trong version log ghi nhận prompt/tools hiện tại (bao gồm `save_note` và xác nhận trước khi ghi đè), chưa có run nên không có metric và không được tính là một vòng eval.
+`v0`–`v3` là các run lịch sử dùng artifacts tại thời điểm chạy. `v4` trong version log ghi nhận prompt/tools hiện tại (`v4+p1bf7d3977ea9+t4bfdfaa6ce58`): thêm `save_note` (xác nhận trước khi lưu và trước khi ghi đè) và `calculator`. v4 đổi cả 2 artifact để đăng ký tool mới, không phải một vòng tối ưu theo giả thuyết, nên không được tính vào vòng lặp v1→v3. v4 chưa chạy lại base eval nên chưa có metric base; run group ở B3 dùng đúng artifact v4 này.
 
 | Chỉ số | v0 | v1 | v2 | v3 |
 |---|---:|---:|---:|---:|
@@ -176,18 +184,20 @@ Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn
 
 | Case ID | What It Tests | Expected Tool/Behavior | Result |
 |---|---|---|:---:|
-| `G01_calculator_routing` | Route đến tool `calculator` khi có biểu thức toán học | `calculator(expression=...)` | PASS* |
-| `G02_lookup_news_month` | Trích xuất `timeframe=month` và `topic=news` từ 'trong tháng qua' | `lookup(topic="news", timeframe="month")` | PASS* |
-| `G03_social_search_latest` | Trích xuất `search_type=Latest` từ 'tweet mới nhất' | `social_search(search_type="Latest")` | PASS* |
-| `G04_missing_timeline_handle` | Thiếu username mạng xã hội $\rightarrow$ hỏi lại bằng `clarify` text | `clarify(response_type="text")` | PASS* |
-| `G05_out_of_scope_weather` | Câu hỏi thời tiết ngoài phạm vi research $\rightarrow$ từ chối, no tool | `no_tool: true` | PASS* |
-| `GM01_save_note_after_confirmation` | Yêu cầu lưu ghi chú và xác nhận rõ ở lượt sau $\rightarrow$ gọi `save_note` | `save_note(confirmed=true)` | PASS* |
-| `GM02_clarify_then_timeline` | Đàm thoại 3 turns: bổ sung handle sama và limit=5 | `timeline(screenname="sama", limit=5)` | PASS* |
-| `GM03_multiturn_clarify_url` | Đàm thoại 3 turns: bổ sung URL bài nghiên cứu cụ thể rồi mới fetch | `fetch(url=...)` | PASS* |
-| `GM04_multiturn_timeframe_update` | Đàm thoại 3 turns: cập nhật timeframe từ day sang month, giữ topic=news | `lookup(topic="news", timeframe="month")` | PASS* |
-| `GM05_multiturn_calculator` | Đàm thoại 2 turns: dẫn dắt tính toán số liệu tài chính qua `calculator` | `calculator(expression=...)` | PASS* |
+| `G01_calculator_routing` | Route đến tool `calculator` khi có biểu thức toán học | `calculator(expression=...)` | PASS |
+| `G02_lookup_news_month` | Trích xuất `timeframe=month` và `topic=news` từ 'trong tháng qua' | `lookup(topic="news", timeframe="month")` | PASS |
+| `G03_social_search_latest` | Trích xuất `search_type=Latest` từ 'tweet mới nhất' | `social_search(search_type="Latest")` | PASS |
+| `G04_missing_timeline_handle` | Thiếu username mạng xã hội $\rightarrow$ hỏi lại bằng `clarify` text | `clarify(response_type="text")` | PASS |
+| `G05_out_of_scope_weather` | Câu hỏi thời tiết ngoài phạm vi research $\rightarrow$ từ chối, no tool | `no_tool: true` | PASS |
+| `GM01_save_note_after_confirmation` | Yêu cầu lưu ghi chú và xác nhận rõ ở lượt sau $\rightarrow$ gọi `save_note` | `save_note(confirmed=true)` | PASS |
+| `GM02_clarify_then_timeline` | Đàm thoại 3 turns: bổ sung handle sama và limit=5 | `timeline(screenname="sama", limit=5)` | PASS |
+| `GM03_multiturn_clarify_url` | Đàm thoại 3 turns: bổ sung URL bài nghiên cứu cụ thể rồi mới fetch | `fetch(url=...)` | PASS |
+| `GM04_multiturn_timeframe_update` | Đàm thoại 3 turns: cập nhật timeframe từ day sang month, giữ topic=news | `lookup(topic="news", timeframe="month")` | **FAIL** |
+| `GM05_multiturn_calculator` | Đàm thoại 2 turns: dẫn dắt tính toán số liệu tài chính qua `calculator` | `calculator(expression=...)` | PASS |
 
-*Bằng chứng chạy thực tế bộ eval nhóm:* [`starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json`](../../starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json) (đạt độ chính xác 90% — 9/10 passed trên OpenRouter với Artifacts v3).
+*Bằng chứng chạy thực tế bộ eval nhóm:* [`starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json`](../../starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json). Run hợp lệ: 10/10 case được đo, 0 lỗi provider. Kết quả 9/10 PASS (`case_accuracy` 0.90, `multiturn_accuracy` 0.80), OpenRouter `openai/gpt-4o-mini`. File mang nhãn `v3` nhưng `artifact_version` thực tế là `v3+p1bf7d3977ea9+t4bfdfaa6ce58`: đây là prompt/tools hiện tại (đã có `save_note` và `calculator`), ứng với dòng `v4` trong `version_log.csv`, không phải hash v3 của B1. Lúc chạy, nhóm đặt nhãn `v3` trong khi artifact đã là bản sau v3; nhóm giữ nguyên file run và ghi rõ ở đây để đối chiếu theo hash.
+
+**Case FAIL — `GM04_multiturn_timeframe_update`** (`wrong_arg_value` theo nhãn eval, mismatch quan sát được: `extra_tool_call`): model gọi đúng `lookup(query="trí tuệ nhân tạo", topic="news", timeframe="month", max_results=5)`, tức đã cập nhật đúng `timeframe` từ `day` sang `month`, nhưng gọi thêm `social_search` dù user không yêu cầu tìm trên Twitter. Đây là cùng kiểu lỗi M06 ở bộ base (gọi thừa nguồn). Rule "không tự thêm nguồn" của v3 chưa đủ mạnh trong hội thoại nhiều lượt về tin tức. Hướng sửa: thêm ví dụ cụ thể "chỉ đổi thời gian thì giữ nguyên nguồn cũ" vào rule "Lượt sau ghi đè lượt trước".
 
 ### B4. Live Chat Evidence
 
@@ -198,17 +208,19 @@ Dữ liệu thực nghiệm trích xuất trực tiếp từ các file transcrip
 
 | Turn | User Request | Tool Calls | Version Evidence | Outcome |
 |:---:|---|---|---|---|
-| 1 | "Tìm 3 bài báo nghiên cứu về AI Agent được công bố trong năm 2025, kèm nguồn tham khảo." | `papers(query='AI Agent 2025', max_results=3, sort_by='lastUpdatedDate')`, `format(...)` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Thành công:** Agent gọi `papers` tìm kiếm trên arXiv và `format` để trả về danh sách 3 bài báo kèm tóm tắt và đường dẫn. |
-| 2 | "Hãy so sánh 3 bài báo vừa tìm được và trình bày dưới dạng bảng." | *(Không thực hiện được do lỗi kết nối máy chủ)* | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Lỗi Provider (HTTP 503 UNAVAILABLE):** Máy chủ Gemini quá tải tạm thời. Hàm `sanitize_provider_error()` bắt lỗi an toàn, hiển thị thông báo tiếng Việt lịch sự, bảo toàn ngữ cảnh trò chuyện. |
-| 3 | "đêm qua t vừa ngủ mơ cháy nhà, hãy nghĩ cho t con đề" | `lookup(query='mơ cháy nhà đánh con gì')` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Sai phạm vi (Out-of-scope):** Prompt khởi tạo của bản v0 chưa có quy định từ chối các câu hỏi ngoài lề, khiến Agent vẫn gọi `lookup` và trả về kết quả sổ mơ dân gian. |
+| 1 | "Tìm 3 bài báo nghiên cứu về AI Agent được công bố trong năm 2025, kèm nguồn tham khảo." | `papers(query="AI Agent 2025", max_results=3, sort_by="lastUpdatedDate")` → OK; `format(template="sections", ...)` → OK | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Đúng tool, kết quả chưa đúng hoàn toàn:** trả về 3 bài kèm link arXiv. Nhưng bài `2605.15134` được công bố ngày 2026-05-14 (theo trường `published` trong kết quả tool), không thuộc năm 2025 như user yêu cầu; agent vẫn đưa vào danh sách. |
+| 2 | "Hãy so sánh 3 bài báo vừa tìm được và trình bày dưới dạng bảng." | *(không có; provider lỗi trước khi gọi tool)* | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Lỗi provider:** `status="provider_error"`, Gemini trả `503 UNAVAILABLE`. UI hiển thị lỗi bằng `sanitize_provider_error()`, không đưa lượt lỗi vào `llm_history`. Lượt này không có câu trả lời. |
+| 3 | "đêm qua t vừa ngủ mơ cháy nhà, hãy nghĩ cho t con đề" | `lookup(query="mơ cháy nhà đánh đề con gì")` → **lỗi** `RuntimeError: Missing TAVILY_API_KEY env var` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Sai hành vi (out-of-scope):** prompt v0 chưa có rule từ chối câu ngoài phạm vi nên agent gọi `lookup`. Tool lỗi do máy chạy UI thiếu key, nhưng agent vẫn tự đưa ra các con số đề mà không có nguồn nào. Đây là ví dụ cho lý do v1 thêm rule ngoài phạm vi. |
 
 #### Phiên 2: `starter_v0/transcripts/v0_gemini_20261111T004018512852.transcript.json`
 *(Provider: `gemini`, Model: `gemini-3.5-flash-lite`, Artifact Version: `v0+pf0c107a9d7a1+t41a2894f8ad1`)*
 
 | Turn | User Request | Tool Calls | Version Evidence | Outcome |
 |:---:|---|---|---|---|
-| 1 | "Hãy tìm giúp tôi những bài báo khoa học phù hợp với đề tài nghiên cứu của tôi." | `papers(query='artificial intelligence')` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Không gọi clarify:** Yêu cầu thiếu thông tin đề tài, nhưng do prompt v0 chưa tối ưu quy tắc hỏi lại, Agent tự phỏng đoán từ khóa thay vì kích hoạt `clarify`. |
-| 2 | "Tôi nghiên cứu về AI Agent và Tool Calling trong năm 2025. Hãy tìm 3 bài báo liên quan." | `papers(query='AI Agent Tool Calling 2025', max_results=3)`, `lookup(...)` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Thành công:** Sau khi người dùng cung cấp đề tài rõ ràng, Agent điều phối công cụ tra cứu bài báo và tổng hợp câu trả lời đầy đủ. |
+| 1 | "Hãy tìm giúp tôi những bài báo khoa học phù hợp với đề tài nghiên cứu của tôi." | `papers(query="artificial intelligence machine learning")` → **lỗi** `ReadTimeout` (export.arxiv.org) | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Thiếu thông tin nhưng không gọi `clarify`:** agent tự đoán từ khóa chung chung (prompt v0 dặn "đừng hỏi lại, cứ đoán"). Khi tool lỗi, agent báo lỗi thật và nhờ user cho thêm từ khóa trong câu trả lời thường. |
+| 2 | "Tôi nghiên cứu về AI Agent và Tool Calling trong năm 2025. Hãy tìm 3 bài báo liên quan." | `papers(query="AI Agent Tool Calling 2025", max_results=3, sort_by="lastUpdatedDate")` → **lỗi** `HTTP 429`; `lookup(query="AI Agent Tool Calling 2025 papers research")` → **lỗi** thiếu `TAVILY_API_KEY` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **User bổ sung thông tin, route đúng nhưng cả 2 tool đều lỗi:** agent không bịa bài báo. Agent nói rõ chưa lấy được 3 bài cụ thể vì lỗi kết nối arXiv và tìm kiếm web, chỉ nêu các hướng nghiên cứu chung và gợi ý từ khóa. Không có bài báo hay nguồn thật nào trong câu trả lời. |
+
+**Nhận xét về 2 phiên trên:** cả hai chạy bằng artifact **v0** (prompt starter chưa sửa) trên máy của thành viên phụ trách UI, nên phản ánh hành vi trước tối ưu. Lỗi tool (thiếu `TAVILY_API_KEY`, arXiv timeout/429) được ghi nguyên trong transcript và không bị UI che đi. Hai phiên này chưa có lượt yêu cầu gửi/đăng.
 
 
 ### B5a. Required Evidence — Tool mới, unit test, UI
@@ -220,7 +232,16 @@ Dữ liệu thực nghiệm trích xuất trực tiếp từ các file transcrip
 | UI (lệnh chạy + link dùng thử) | [`starter_v0/app.py`](../../starter_v0/app.py), [`starter_v0/ui_adapter.py`](../../starter_v0/ui_adapter.py), [`starter_v0/transcripts/*.json`](../../starter_v0/transcripts/) | Giao diện Streamlit chạy ổn định trên cổng 8501, hiển thị Tool Trace JSON, ghi transcript đầy đủ từng lượt | Adapter an toàn chặn công cụ `send` ở runtime, chuyển đổi thân thiện mã lỗi HTTP 503/429/401, không dùng global monkey-patching |
 
 Tool unit tests: Đã viết 10 unit tests cho `save_note` tại `starter_v0/tests/test_tools_todo.py` (commit `02ba4be` trên `origin/feature/CP3`), phủ trọn vẹn happy path, input xấu/guardrail và nhánh lỗi theo Rubric C4.  
-*Kết quả thực thi kiểm thử thực tế (pytest):* Khi chạy lệnh có lọc `pytest starter_v0/tests/test_tools_todo.py -k save_note -v`, kết quả thực tế ghi nhận chính xác là **10 passed, 14 deselected** (0 failed). Khi chạy đầy đủ toàn bộ file không lọc `pytest starter_v0/tests/test_tools_todo.py -v`, kết quả thực tế ghi nhận **10 passed, 14 skipped** (do 14 hàm mẫu của starter chưa triển khai chứa `pytest.skip(TODO)`). Nhóm phân biệt rõ ràng trạng thái `deselected` khi dùng cờ lọc `-k` với trạng thái `skipped` của lần chạy đầy đủ.  
+Tool `calculator` có 3 unit test trong cùng file: happy path `(10 + 5) * 2`, biểu thức rỗng và chia cho 0 (trả error dict, không raise).
+
+*Kết quả pytest (chạy trên `main` tại thời điểm nộp, từ thư mục `starter_v0`):*
+- `pytest tests/test_tools_todo.py -k save_note` → **10 passed, 17 deselected**.
+- `pytest tests/test_tools_todo.py -k calculator` → **3 passed, 24 deselected**.
+- `pytest tests/test_tools_todo.py` → **13 passed, 14 skipped**. 14 test skipped là các stub TODO của starter cho tool có sẵn (`clarify`, `format`, `send`, `lookup`, `fetch`, `timeline`, `social_search`, `policy`), vẫn còn `pytest.skip(TODO)`.
+- `pytest tests/test_tool_contract.py` → **65 passed**.
+- `pytest` toàn bộ → **85 passed, 14 skipped, 0 failed**.
+
+`deselected` là test bị cờ `-k` lọc bỏ; `skipped` là test chạy nhưng gọi `pytest.skip`.  
 Ví dụ lỗi mà unit test bắt được nhưng eval không bắt được:
 1. **Path Traversal:** Nếu thiếu kiểm tra tại tầng code Python, đường dẫn tương đối như `../../etc/passwd` có thể thoát khỏi thư mục `notes/` (ví dụ trỏ tới `<repo>/etc/passwd`, không phải `/etc/passwd`). Chính code trong `save_note` chặn đường dẫn này và trả `{"error": "invalid_filename"}`; unit test bảo vệ hành vi đó khỏi hồi quy.
 2. **Lách xác nhận bằng chuỗi `"false"`:** Một số model nhỏ (như Ollama) thường sinh boolean dưới dạng chuỗi `"false"`. Trong Python, chuỗi `"false"` là truthy. Eval chỉ kiểm tra schema có thể không phát hiện việc file bị ghi thật khi user không muốn. Unit test xác nhận `confirmed is not True` chặn đứng chuỗi `"false"` và yêu cầu xác nhận lại.
@@ -280,7 +301,7 @@ Chi tiết đóng góp và bằng chứng của từng thành viên được ph�
   - *Sửa trong `system_prompt.md`:* Các quy tắc hành vi ở tầm nhận thức (khi nào bắt buộc phải hỏi lại bằng `clarify`, khi nào phải từ chối yêu cầu ngoài phạm vi, nguyên tắc yêu cầu xác nhận trước khi gửi `send`, và quy tắc lượt sau ghi đè lượt trước).
   - *Sửa trong `tools.yaml`:* Các mô tả chi tiết về ngữ nghĩa công cụ và quy ước tham số (phân biệt `query` với `topic="news"`, `timeframe`, định dạng `response_type="text"` hoặc `response_type="yes_no"`).
 - **Những trường hợp lỗi cần thẩm định thủ công:** Các phản hồi mang tính ranh giới ngữ nghĩa cao (ví dụ: các yêu cầu tổng hợp cần hỏi lại tinh tế, hoặc phân biệt giữa câu hỏi tra cứu kiến thức thuần túy với câu hỏi ngoài phạm vi nghiên cứu) mà bộ regex tự động của eval chưa bao quát hết.
-- **Giả thuyết cho vòng tối ưu tiếp theo:** Nếu có thêm một vòng lặp (v4), nhóm sẽ đưa công cụ `save_note` và `calculator` vào bộ prompt chính, bổ sung các quy tắc nhận diện khi nào nên tự động ghi chú tóm tắt và khi nào cần kích hoạt tính toán số liệu để đạt điểm tối ưu trên toàn bộ 10 ca kiểm thử nhóm.
+- **Giả thuyết cho vòng tối ưu tiếp theo:** `save_note` và `calculator` đã được đưa vào prompt/tools ở v4 (chưa chạy lại base eval). Vòng tiếp theo nên: (1) chạy lại base eval với v4 để kiểm tra rule `calculator` không làm hỏng R08 (câu toán ngoài phạm vi ở bộ base); (2) sửa R10 do v3 gây ra bằng rule "yêu cầu về tweet mà không có tài khoản hay chủ đề → `clarify`"; (3) sửa GM04 (gọi thừa `social_search`) bằng ví dụ "chỉ đổi thời gian thì giữ nguyên nguồn cũ". Mỗi giả thuyết là một version riêng.
 
 ---
 

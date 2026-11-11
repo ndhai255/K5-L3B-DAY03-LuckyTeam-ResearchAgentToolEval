@@ -5,9 +5,9 @@
 - Tên nhóm: **LuckyTeam**
 - Lớp: **K5-L3B**
 - Repo nhóm: `K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo: `git@github.com:ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval.git`
+- URL repo: https://github.com/ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval
 - Nhánh nộp: `main` (tổng hợp từ các nhánh tính năng)
-- Commit chốt: `93afa22` (hoặc commit cuối cùng trên nhánh `main` trước khi nộp bài)
+- Commit chốt: commit cuối cùng trên nhánh `main` trước deadline
 
 ## Thành viên
 
@@ -99,7 +99,7 @@ report/team/MSSV_HoTen.md
 - File unit test: `starter_v0/tests/test_tools_todo.py` (10 tests cho `save_note`).
 - Commit cá nhân: `56384df` và `02ba4be` trên nhánh `feature/CP3`.
 - Báo cáo cá nhân: [`report/team/2A202603935_VuQuangHai.md`](report/team/2A202603935_VuQuangHai.md).
-- Kiểm thử: 10 test `save_note` và 60 test contract pass; toàn suite có 77 passed, 14 skipped (TODO ở các tool khác).
+- Kiểm thử: 10 test `save_note` pass. Trên `main` lúc nộp (đã có thêm 3 test `calculator`): 65 test contract pass, toàn suite 85 passed, 14 skipped (stub TODO của các tool có sẵn).
 
 ---
 
