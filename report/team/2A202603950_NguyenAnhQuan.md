@@ -61,6 +61,7 @@ Tự tay thiết kế và cấu trúc hóa file `starter_v0/data/eval_group.json
     - Version v1: `runs/v1_B_base_openrouter_20261110T191226027013.json` (80% accuracy)
     - Version v2: `runs/v2_B_base_openrouter_20261110T192254242999.json` (90% accuracy)
     - Version v3: `runs/v3_B_base_openrouter_20261110T192858515309.json` (95% accuracy, 100% routing accuracy)
+    - Suite group (CP4): `runs/v3_B_group_openrouter_20261111T091359077950.json` (90% accuracy, 9/10 passed)
 - **Công cụ đã sử dụng và phương pháp kiểm chứng:**
   - Sử dụng Python scripting đọc parse các file JSON trong `runs/` để trích xuất `failures` và `observed_mismatch`.
   - Kiểm tra tính hợp lệ bằng test tự động: `pytest tests/test_tool_contract.py` (65/65 test pass).

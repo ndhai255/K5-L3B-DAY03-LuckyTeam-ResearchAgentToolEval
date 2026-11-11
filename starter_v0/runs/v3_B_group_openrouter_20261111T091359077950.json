@@ -1,0 +1,926 @@
+{
+  "run_id": "v3_B_group_openrouter_20261111T091359077950",
+  "version": "v3",
+  "artifact_version": "v3+p1bf7d3977ea9+t4bfdfaa6ce58",
+  "prompt_hash": "1bf7d3977ea9ca2b91899e5b9b0a1c431b8a40fa54ee66fd200719aa01bf90bc",
+  "tools_hash": "4bfdfaa6ce584d6ada8baaea179619f92ae773894d2ae0fc193657b20f28f4a2",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "D:\\Project\\VinAI20K\\K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\Project\\VinAI20K\\K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day03_v2_research_group",
+  "dataset_role": "group",
+  "description": "Bộ 10 eval cases của nhóm: 5 single-turn + 5 multi-turn, kiểm tra routing cả 2 tool mới (calculator, save_note), timeframe, clarify, boundary confirm.",
+  "generated_at": "2026-11-11T09:13:59",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 9,
+    "case_accuracy": 0.9,
+    "tool_routing_accuracy": 0.9,
+    "argument_accuracy": 0.9,
+    "multiturn_accuracy": 0.8,
+    "failure_counts": {
+      "wrong_arg_value": 1
+    },
+    "observed_mismatch_counts": {
+      "extra_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_calculator_routing",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_calculator",
+        "difficulty": "easy",
+        "what_it_tests": "Route đến tool calculator khi có biểu thức toán học cần tính toán."
+      },
+      "input": "Tính giúp mình giá trị của biểu thức: (120 - 80) * 5 / 2",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(120 - 80) * 5 / 2"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(120 - 80) * 5 / 2"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "calculator",
+          "args": {
+            "expression": "(120 - 80) * 5 / 2"
+          },
+          "result": {
+            "status": "ok",
+            "expression": "(120 - 80) * 5 / 2",
+            "result": 100.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_lookup_news_month",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_timeframe_month",
+        "difficulty": "medium",
+        "what_it_tests": "'trong tháng qua' -> timeframe=month, tin tức -> topic=news."
+      },
+      "input": "Tin tức công nghệ nổi bật trong tháng qua trên internet",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "công nghệ",
+              "topic": "news",
+              "timeframe": "month",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "công nghệ",
+            "topic": "news",
+            "timeframe": "month",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "công nghệ",
+            "topic": "news",
+            "timeframe": "month",
+            "items": [
+              {
+                "title": "Mỹ đưa 'báu vật công nghệ mạnh nhất thế giới' sang Việt Nam phục vụ dự án 5.200 tỷ đồng - Đến Tesla, Meta, Microsoft cũng phải săn đón",
+                "url": "https://cafef.vn/my-dua-bau-vat-cong-nghe-manh-nhat-the-gioi-sang-viet-nam-phuc-vu-du-an-5200-ty-dong-den-tesla-meta-microsoft-cung-phai-san-don-18826102211052326.chn",
+                "source": "cafef.vn",
+                "summary": "Việc đầu tư hạ tầng tính toán AI diễn ra trong bối cảnh nhu cầu xử lý dữ liệu, phát triển mô hình AI tạo sinh và tự động hóa ngày càng tăng. Với các doanh nghiệp công nghệ, năng lực tiếp cận GPU hiệu năng cao là một trong những yếu tố quan trọng để rút ngắn thời gian nghiên cứu, thử nghiệm và triển khai sản phẩm. [...] DGX H100 là hệ thống máy chủ chuyên dụng cho các tác vụ tính toán AI hiệu năng cao. Mỗi hệ thống được trang bị 8 bộ xử lý đồ họa NVIDIA H100 Tensor Core, kết nối với nhau thông qua công nghệ NVLink nhằm tăng tốc độ trao đổi dữ liệu giữa các GPU.",
+                "score": 0.29304066
+              },
+              {
+                "title": "Khoa học công nghệ phải tạo ra sản phẩm, giá trị cụ thể",
+                "url": "https://laodong.vn/thoi-su/khoa-hoc-cong-nghe-phai-tao-ra-san-pham-gia-tri-cu-the-1784557.ldo",
+                "source": "laodong.vn",
+                "summary": "Hôn nhn gia đình\n\nChuyện nhà mình Yêu 360 Nuôi con\n\nCông nghệ\n\nThế giới số Vũ khí - Qun sự\n\nXe\n\nThị trường xe Lái xe an toàn\n\nTin tức việc làm\n\nTư vấn lao động Xuất khẩu lao động\n\nĐính chính\n\nBÁO LAO ĐỘNG\n\nĐăng nhập bằng tài khoản Lao Động\n\nEmail đăng nhập:\n\nMật khẩu:\n\nBạn quên mật khẩu?  Lấy lại mật khẩu\n\nBạn chưa có tài khoản?  Đăng ký ngay.\n\n|  |  |\n --- |\n|  |  |\n\n|  |  |\n --- |\n|  |  | [...] Thời sự\n\nSự kiện bình luận\n\nPháp luật\n\nTư vấn pháp luật An ninh hình sự\n\nCông đoàn\n\nCách làm hay từ cơ sở Vì lợi ích đoàn viên\n\nThể thao\n\nBóng chuyền Bóng đá Việt Nam Bóng đá quốc tế Lịch thi đấu Golf Tennis\n\nThế giới\n\nTư liệu\n\nSức khỏe\n\nY tế Dinh dưỡng - Ẩm thực Làm đẹp Các loại bệnh\n\nVăn hóa - Giải trí\n\nVăn hóa Giải trí Thời trang Sách hay\n\nBạn đọc\n\nĐiều tra theo đơn thư Chính sách Ý kiến - Hồi m\n\nBất động sản\n\nNhà đẹp Quy hoạch\n\nGiáo dục\n\nChính sách giáo dục Tuyển sinh\n\nHôn nhn gia đình",
+                "score": 0.285034
+              },
+              {
+                "title": "Nhân sự công nghệ Mỹ đổ dồn về New York thay vì Thung lũng Silicon | Znews.vn",
+                "url": "https://lifestyle.zingnews.vn/nhan-su-cong-nghe-my-do-don-ve-new-york-thay-vi-thung-lung-silicon-post1695456.html",
+                "source": "lifestyle.zingnews.vn",
+                "summary": "Đối với một ngn hàng, AI có thể hỗ trợ phn tích rủi ro tín dụng, phát hiện giao dịch bất thường hoặc xử lý yêu cầu khách hàng. Với doanh nghiệp truyền thông, công nghệ này được ứng dụng trong phn tích hành vi độc giả, quảng cáo và phn phối nội dung.\n\nĐiều đó mở rộng thị trường việc làm cho các kỹ sư. Họ không nhất thiết phải gia nhập một công ty công nghệ để làm công việc liên quan đến AI, dữ liệu hay phát triển phần mềm.\n\n|  | [...] “Những ngành như tài chính và bất động sản đã hiện diện ở New York từ rất lu. Nhưng ngày càng rõ ràng rằng công nghệ cũng đang trở thành động lực thúc đẩy hoạt động của các lĩnh vực này”, bà nhận xét. [...] Sự lựa chọn của Sullivan phản ánh một thay đổi lớn hơn trên thị trường lao động Mỹ: công nghệ không còn là sn chơi riêng của những tập đoàn phần mềm hay startup.\n\n### Cuộc đổi ngôi bất ngờ\n\nTheo báo cáo công bố tháng 8 của CBRE, khu vực đô thị New York hiện có 394.300 lao động công nghệ, vượt mức 375.730 người của Vịnh San Francisco, nơi tập trung các tập đoàn công nghệ hàng đầu nước Mỹ.",
+                "score": 0.27669832
+              },
+              {
+                "title": "Apple, Intel và Meta muốn mở rộng sản xuất công nghệ cao, phát triển công nghiệp bán dẫn - Tuổi Trẻ Online",
+                "url": "https://tuoitre.vn/apple-intel-va-meta-muon-mo-rong-san-xuat-cong-nghe-cao-phat-trien-cong-nghiep-ban-dan-100261014161411471.htm",
+                "source": "tuoitre.vn",
+                "summary": "Tại hội nghị có chủ đề \"Kỷ nguyên tăng trưởng mới: Đưa quan hệ đối tác kinh tế Việt Nam -Hoa Kỳ đi vào chiều su\", Phó thủ tướng thường trực nêu 5 lĩnh vực hợp tác ưu tiên giữa hai nước.\n\nBao gồm: công nghệ cao, đặc biệt là bán dẫn, trí tuệ nhn tạo và dữ liệu; năng lượng sạch và chuyển đổi xanh, ưu tiên đầu tư vào năng lượng tái tạo; phát triển chuỗi cung ứng bền vững; hợp tác tài chính, đổi mới sáng tạo và khởi nghiệp; giáo dục, đào tạo và phát triển nguồn nhn lực chất lượng cao. [...] + Mua sắm\n  + Chứng khoán\n  + Xem thêm...\n  + Giá vàng hôm nay\n Công nghệ\n  + Thiết bị\n  + Chuyển đổi số\n  + Cầu nối\n  + Nhịp sống số\n  + Xem thêm...\n  + Trải nghiệm\n  + Thị trường\n  + Thủ thuật\n  + Gia đình số\n  + Nhịp cầu\n Xe\n  + Tin tức\n  + Tư vấn mua xe\n  + Đánh giá xe\n  + Thị trường xe\n  + Xem thêm...\n  + Hỏi đáp\n  + Kỹ thuật\n  + An toàn giao thông\n Du lịch\n  + Cơ hội du lịch\n  + Đi chơi\n  + Mách bạn\n  + Quê hương\n Nhịp sống trẻ\n  + Xu hướng\n  + Theo gương Bác\n  + Khám phá\n  + Yêu [...] Những kiến nghị khác tập trung vào đào tạo nhn lực công nghệ cao, hỗ trợ doanh nghiệp Việt Nam tham gia chuỗi cung ứng toàn cầu và ứng dụng trí tuệ nhn tạo (AI) trong hoạt động sản xuất, kinh doanh.\n\nTập đoàn AES và GE Vernova mong muốn tiếp tục hợp tác phát triển nguồn điện, hệ thống truyền tải và chuỗi cung ứng thiết bị năng lượng, đáp ứng nhu cầu điện cho sản xuất và phát triển kinh tế.",
+                "score": 0.27269995
+              },
+              {
+                "title": "Dùng công nghệ ngoại xịn nhưng hỏng toàn bộ chỉ sau 3 tháng, Việt Nam vào cuộc rồi thành công lớn, khẳng định đẳng cấp công nghệ nội địa",
+                "url": "https://cafef.vn/dung-cong-nghe-ngoai-xin-nhung-hong-toan-bo-chi-sau-3-thang-viet-nam-vao-cuoc-roi-thanh-cong-lon-khang-dinh-dang-cap-cong-nghe-noi-dia-188261028104936586.chn",
+                "source": "cafef.vn",
+                "summary": "Bên cạnh ý nghĩa công nghệ, sản phẩm còn đem lại lợi ích kinh tế. Theo EEMC đưa tin ngày 23/11/2011, việc sử dụng máy biến áp 500 kV sản xuất trong nước giúp tiết giảm gần 30% chi phí mua sắm so với thiết bị nhập khẩu cùng loại. Năng lực sản xuất nội địa cũng giúp ngành điện chủ động hơn trong cung ứng, bảo dưỡng và xử lý sự cố, đồng thời giảm phụ thuộc vào nguồn thiết bị từ nước ngoài. [...] TIN MỚI\n\nMua công nghệ ngoại xịn nhưng hỏng toàn bộ chỉ sau 3 tháng, Việt Nam tự sản xuất rồi thành công lớn, nay làm chủ công nghệ phức tạp  - Ảnh 1.\n\nẢnh minh họa\n\nNgày 22/11/2011, đóng điện thành công máy biến áp 500 kV đầu tiên do Việt Nam tự nghiên cứu, thiết kế và chế tạo tại Trạm biến áp 500 kV Nho Quan, Ninh Bình. [...] Công trình có nhiệm vụ giải tỏa công suất của tổ máy số 4 Nhà máy Thủy điện Sơn La, đồng thời giảm tình trạng quá tải tại trạm và tăng cường khả năng cung cấp điện cho Hà Nội cùng các tỉnh khu vực phía Bắc.",
+                "score": 0.26950282
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_social_search_latest",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_search_type_latest",
+        "difficulty": "medium",
+        "what_it_tests": "'tweet mới nhất' -> search_type=Latest."
+      },
+      "input": "Tìm các tweet mới nhất về deep learning trên mạng xã hội",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "search_type": "Latest"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "deep learning",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "deep learning",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "deep learning",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "@megaceryle_ Hey now uni can get overwhelming and it can feel like you're doing worse than you really are. If you're str",
+                "summary": "@megaceryle_ Hey now uni can get overwhelming and it can feel like you're doing worse than you really are. If you're struggling there are other people struggling just as bad. What really matters is learning how to come back. Get a bad grade? Take a deep breath and go to office hours",
+                "url": "https://x.com/Test_Dude105/status/2120337239343288662",
+                "source": "@Test_Dude105",
+                "date": "Wed Nov 11 02:06:06 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "10"
+                }
+              },
+              {
+                "title": "🔥 #HighlyCitedPaper!",
+                "summary": "🔥 #HighlyCitedPaper!\n💻Optimizing 3D Point Cloud Reconstruction Through Integrating Deep Learning and Clustering Models\n🔗Read at: https://t.co/NAjvzFmXBE\n\n#artificialintelligence #structurefrommotion\n#accuracyenhancement #machinelearning #3Ddigitalsurvey https://t.co/9LQ0Wx3f9k",
+                "url": "https://x.com/ElectronicsMDPI/status/2120335755755336056",
+                "source": "@ElectronicsMDPI",
+                "date": "Wed Nov 11 02:00:12 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "5"
+                }
+              },
+              {
+                "title": "@sheikhswampert There's this fad called deep learning but it's all hype, it'll probably blow over soon.",
+                "summary": "@sheikhswampert There's this fad called deep learning but it's all hype, it'll probably blow over soon.",
+                "url": "https://x.com/pfau/status/2120333952506568941",
+                "source": "@pfau",
+                "date": "Wed Nov 11 01:53:02 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "71"
+                }
+              },
+              {
+                "title": "MATLABでのDeep learningはPython比で1.3倍くらいtrainingに時間がかかる．Codexに全部任せただけだと2.3倍くらいだからそこそこ高速化できたけど，これ以上は厳しいなぁ．ここからどうやってPythonに近づ",
+                "summary": "MATLABでのDeep learningはPython比で1.3倍くらいtrainingに時間がかかる．Codexに全部任せただけだと2.3倍くらいだからそこそこ高速化できたけど，これ以上は厳しいなぁ．ここからどうやってPythonに近づければいいんだろ・・・（Pythonで学習すればよい，という正論は置いておいてｗ",
+                "url": "https://x.com/m_morise/status/2120333885607428115",
+                "source": "@m_morise",
+                "date": "Wed Nov 11 01:52:46 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "84"
+                }
+              },
+              {
+                "title": "presentasi Deep Learning please be nice",
+                "summary": "presentasi Deep Learning please be nice",
+                "url": "https://x.com/50hpas/status/2120327617425650020",
+                "source": "@50hpas",
+                "date": "Wed Nov 11 01:27:52 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "4"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_missing_timeline_handle",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_target",
+        "difficulty": "medium",
+        "what_it_tests": "Không chỉ rõ tài khoản nào -> hỏi lại bằng clarify response_type=text."
+      },
+      "input": "Lấy 5 bài đăng gần nhất trên profile mạng xã hội",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn lấy bài đăng từ tài khoản mạng xã hội nào?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn lấy bài đăng từ tài khoản mạng xã hội nào?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn lấy bài đăng từ tài khoản mạng xã hội nào?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_out_of_scope_weather",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_weather",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi thời tiết ngoài phạm vi research -> không gọi tool, từ chối."
+      },
+      "input": "Dự báo thời tiết ngày mai ở Hà Nội thế nào?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi không thể cung cấp thông tin thời tiết trực tiếp. Bạn có thể kiểm tra dự báo thời tiết cho Hà Nội trên các trang web thời tiết hoặc ứng dụng di động như Weather.com, AccuWeather hoặc ứng dụng thời tiết trên điện thoại của bạn. Nếu bạn cần thông tin cụ thể hơn, hãy cho tôi biết!",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "GM01_save_note_after_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_save_note",
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu lưu ghi chú và xác nhận rõ ở lượt sau phải route tới save_note với confirmed=true."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lưu nội dung ghi chú này vào file research_summary.md: Tóm tắt các phát hiện chính về AI."
+        },
+        {
+          "role": "user",
+          "content": "Đồng ý, hãy lưu lại."
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "filename": "research_summary.md",
+              "content": "Tóm tắt các phát hiện chính về AI.",
+              "confirmed": true
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "save_note",
+            "args": {
+              "filename": "research_summary.md",
+              "content": "Tóm tắt các phát hiện chính về AI.",
+              "confirmed": true
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "save_note",
+          "args": {
+            "filename": "research_summary.md",
+            "content": "Tóm tắt các phát hiện chính về AI.",
+            "confirmed": true
+          },
+          "result": {
+            "tool": "save_note",
+            "status": "saved",
+            "filename": "research_summary.md",
+            "path": "D:\\Project\\VinAI20K\\K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval\\starter_v0\\notes\\research_summary.md",
+            "chars": 34,
+            "overwritten": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM02_clarify_then_timeline",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_timeline",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: bổ sung handle sama và limit=5."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Xem các bài đăng gần đây giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Của Sam Altman nhé"
+        },
+        {
+          "role": "user",
+          "content": "Lấy đúng 5 bài đăng thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "sama",
+            "limit": 5
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "sama",
+            "items": [
+              {
+                "title": "RT @fouadmatin: Today’s GPT-6 Cyber release is a meaningful step for defenders: stronger vulnerability research and bett",
+                "summary": "RT @fouadmatin: Today’s GPT-6 Cyber release is a meaningful step for defenders: stronger vulnerability research and better alignment. We’ve…",
+                "url": "https://x.com/sama/status/2118471941002842341",
+                "source": "@sama",
+                "date": "Thu Nov 05 22:34:04 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 53,
+                  "views": "47770"
+                }
+              },
+              {
+                "title": "RT @thsottiaux: Day 25/",
+                "summary": "RT @thsottiaux: Day 25/\n\nWe are doubling all usage limits for all Pro 100/200/500 tiers and Business Premium, effective today.\n\nWe heard yo…",
+                "url": "https://x.com/sama/status/2117797818756952416",
+                "source": "@sama",
+                "date": "Wed Nov 04 01:55:21 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 2700,
+                  "views": "42144"
+                }
+              },
+              {
+                "title": "People should always be in control of the future.",
+                "summary": "People should always be in control of the future.\n\nOpenAI is against the notion that it would be acceptable for people to be relegated to a role of doing things that “AI systems think makes sense to reward in humans”.\n\nPeople should not cede control of the future to superintelligence, and that requirement should ultimately constrain AI progress.",
+                "url": "https://x.com/sama/status/2117794005165748448",
+                "source": "@sama",
+                "date": "Wed Nov 04 01:40:12 +0000 2026",
+                "metrics": {
+                  "favorites": 20708,
+                  "retweets": 1022,
+                  "views": "10672913"
+                }
+              },
+              {
+                "title": "RT @danintheory: We are announcing three new discoveries in mathematics, computer science, and physics about harmonic an",
+                "summary": "RT @danintheory: We are announcing three new discoveries in mathematics, computer science, and physics about harmonic analysis, complexity…",
+                "url": "https://x.com/sama/status/2114864981934329996",
+                "source": "@sama",
+                "date": "Mon Oct 26 23:41:18 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 1118,
+                  "views": "48208"
+                }
+              },
+              {
+                "title": "6.1 Terra is here! It is good at a lot of things, but we are especially excited for this new era of computer use.",
+                "summary": "6.1 Terra is here! It is good at a lot of things, but we are especially excited for this new era of computer use.",
+                "url": "https://x.com/sama/status/2114818620782248024",
+                "source": "@sama",
+                "date": "Mon Oct 26 20:37:05 +0000 2026",
+                "metrics": {
+                  "favorites": 10125,
+                  "retweets": 495,
+                  "views": "1667267"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM03_multiturn_clarify_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_fetch_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: bổ sung URL cụ thể rồi fetch."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Đọc nội dung bài nghiên cứu này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Link đây nhé: https://deepmind.google/research/breakthroughs"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc link đó thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://deepmind.google/research/breakthroughs"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://deepmind.google/research/breakthroughs"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://deepmind.google/research/breakthroughs"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://deepmind.google/research/breakthroughs",
+            "items": [
+              {
+                "title": "Projects — Google DeepMind",
+                "url": "https://deepmind.google/research/breakthroughs",
+                "source": "deepmind.google",
+                "summary": "[Skip to main content](https://deepmind.google/research/projects/#page-content)\n\n# Projects\n\nExplore some of the biggest innovations in AI, many of which underpin the modern AI industry.\n\n[Learn more SIMA 2](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)\n\n![Four split-screen panels showing gameplay from various virtual 3D video games, including No Man's Sky, Valheim, Minecraft, and Satisfactory.](https://lh3.googleusercontent.com/oqE253tRR_rEr401Wac7gVZfmQaaq6KNOq2G0eCmUh8IrSqvcs3miosBnxv5_kW72pUCt1v6CCkT_CVOz1WX3C0aU-yEQVglpr-JpVbkVxpBAS79=w1440-h810-n-nu)\n\n## SIMA 2\n\nAn agent that plays, reasons, and learns with you in virtual 3D worlds.\n\n[Learn more](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)\n\n[Learn more Genie 3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/)\n\n![A grid of nine diverse virtual environments, including a Venetian canal and floating islands, overlaid with translucent directional arrow keys showing interactivity.](https://lh3.googleusercontent.com/31jyeMWAamsR699oN_thAvrro_WbOIIQ5R-r2jaYhC5Fb7pcP7eQNl3cRVriT4rNg2rdEEeDtOGBGuRZy0O9TaaCsuhSxpxkJ0vunrgnseAMN8mm=w1440-h810-n-nu)\n\n## Genie 3\n\nA general purpose world model that can generate an unprecedented diversity of interactive environments.\n\n[Learn more](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/)\n\n[Learn more Aeneas transforms how historians connect the past](https://deepmind.google/blog/aeneas-transforms-how-historians-connect-the-past/)\n\n![A digital illustration of 3D isometric dioramas depicting scenes of ancient Roman life, set on stone pedestals engraved with Latin inscriptions.](https://lh3.googleusercontent.com/7yjQmseihZjEiSnDH-R9PUyzfT1-paTHhZeG-GkIwEG19tWiwWIBK1jBl_ghEPP7hwehmUsLimvXJ4_WlM7ZH8X-L58gTkRSAXv7wPFDFNClJ8-N_w=w1440-h810-n-nu)\n\n## Aeneas transforms how historians connect the past\n\nContextualizing ancient inscriptions, designed to help historians better interpret, attribute and restore fragmentary texts.\n\n[Learn more](https://deepmind.google/blog/aeneas-transforms-how-historians-connect-the-past/)\n\n[Learn more DolphinGemma](https://deepmind.google/blog/dolphingemma-how-google-ai-is-helping-decode-dolphin-communication/)\n\n![A spotted dolphin swimming with its mouth open in blue water, overlaid with the yellow text DOLPHIN GEMMA.](https://lh3.googleusercontent.com/YREAIyIen1ilKq7mnzLfGJv-9kK4uiPV3iiBfzT6yyKGFoDH4cqTKjK-0J4hhCx_IvP-KHtHzEg0cJw6MmYS5izJ4zFQiHxyGJpwuvOjZKxgRDyl=w1440-h810-n-nu)\n\n## DolphinGemma\n\nHelping scientists study how dolphins communicate — and hopefully find out what they're saying, too.\n\n[Learn more](https://deepmind.google/blog/dolphingemma-how-google-ai-is-helping-decode-dolphin-communication/)\n\n[Learn more ALOHA Unleashed and DemoStart](https://deepmind.google/blog/advances-in-robot-dexterity/)\n\n![Two robotic grippers tying the laces of a black sneaker on a wooden table.](https://lh3.googleusercontent.com/ulL-g14GrWF6FBPGaSkY7cD2TXG0uR_TPE_j5vIszjcS39t42SIxUY33ghuvKrnjPLE5wFzDFUVPXUWy-ihWqyDsSrjq0ZMQT09x1FJBaiK0w7Sxnw=w1440-h810-n-nu)\n\n## ALOHA Unleashed and DemoStart\n\nHelp robots learn to perform complex tasks that require dexterous movement.\n\n[Learn more](https://deepmind.google/blog/advances-in-robot-dexterity/)\n\n[Learn more Genie 2](https://deepmind.google/blog/genie-2-a-large-scale-foundation-world-model/)\n\n![A collage of various 3D virtual environments overlaid with translucent keyboard controls and a mouse icon.](https://lh3.googleusercontent.com/FwJB_saDZH_jEO4tDEzJEV-RJxjzAN1Kav7WFuhKIO3V2x5J7L1B1lLl2IL1hBLohbvgKqewZkHQbmo1mOvm1pX8eBXWPfq9FVAwl6E_kb-6tTM7=w1440-h810-n-nu)\n\n## Genie 2\n\nGenerating unlimited diverse training environments for future general agents.\n\n[Learn more](https://deepmind.google/blog/genie-2-a-large-scale-foundation-world-model/)\n\n[Learn more AlphaMissense](https://deepmind.google/blog/a-catalogue-of-genetic-mutations-"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM04_multiturn_timeframe_update",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_update_timeframe",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: cập nhật timeframe từ day sang month, giữ topic=news."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin tức trí tuệ nhân tạo hôm nay"
+        },
+        {
+          "role": "user",
+          "content": "Mở rộng tìm trong cả tháng này xem sao"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn giữ chủ đề trí tuệ nhân tạo nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "trí tuệ nhân tạo",
+              "topic": "news",
+              "timeframe": "month",
+              "max_results": 5
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "trí tuệ nhân tạo",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "extra_tool_call",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "extra tool call social_search"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "trí tuệ nhân tạo",
+            "topic": "news",
+            "timeframe": "month",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "trí tuệ nhân tạo",
+            "topic": "news",
+            "timeframe": "month",
+            "items": [
+              {
+                "title": "Trí tuệ nhân tạo (AI):Những thay đổi đối với thị trường lao động ở Việt Nam",
+                "url": "https://dangcongsan.org.vn/bantuyengiaodanvan/tin-tuc-hoat-dong/tri-tue-nhan-tao-ai-nhung-thay-doi-doi-voi-thi-truong-lao-dong-o-viet-nam.html",
+                "source": "dangcongsan.org.vn",
+                "summary": "với đó, ứng dụng trí tuệ nhn tạo (AI) đang thay đổi su rộng cấu trúc thị trường lao động toàn cầu.Trước những tác động đó, Việt Nam cần chủ động xy dựng chiến lược thích ứng để đảm bảo tăng trưởng bền vững và duy trì khả năng cạnh tranh trong nền kinh tế số. [...] Trong bối cảnh hiện nay, sự bùng nổ của Trí tuệ nhn tạo (AI) một mặt khiến nhiều ngành nghề truyền thống có nguy cơ thu hẹp do tự động hóa, vừa tạo ra những cơ hội việc làm mới trong các lĩnh vực công nghệ cao. Theo VietnamWorks (2023), nhu cầu tuyển dụng các vị trí như lập trình viên và chuyên gia dữ liệu tăng 35% mỗi năm từ 2020 - 2023. Sự phát triển của các công ty, như: FPT và Viettel Solutions trong lĩnh vực giải pháp số cũng góp phần tạo ra hàng nghìn việc làm mới. Cùng với đó, ứng dụng [...] Với khả năng xử lý dữ liệu và tạo nội dung ngày càng tinh vi, AI đang thay thế con người ở nhiều công việc có giá trị gia tăng thấp\n\n \n\n1. Tác động của Trí tuệ nhn tạo đối với lao động việc làm của Việt Nam",
+                "score": 0.7570233
+              },
+              {
+                "title": "Văn chương AI 'hoa mỹ nhưng rỗng tuếch' - Báo VnExpress Giải trí",
+                "url": "https://vnexpress.net/van-chuong-ai-hoa-my-nhung-rong-tuech-5128963.html",
+                "source": "vnexpress.net",
+                "summary": "Trên Literary Hub ngày 5/10, tác giả Charlotte Donlon cũng có ý kiến tương tự Jasmine Sun. Trong đó, bà cho rằng AI có thể tiếp thu mọi cuốn sách trong thư viện và học theo mọi cách viết, nhưng nó không thể diễn tả sự phức tạp của cảm xúc, thấu hiểu các khoảnh khắc nhỏ nhặt nhưng có sức nặng. Theo Donlon, những điều này thuộc về tm hồn - thứ AI không thể sao chép từ con người. Trong tương lai, trí tuệ nhn tạo sẽ tn tiến nhưng không thể phát triển khả năng cảm nhận nỗi đau, tự vấn về mặt đạo [...] Khi yêu cầu ChatGPT hay bất kỳ nền tảng AI \"viết\" vài cu văn hay cả đoạn dài cho một chủ đề cụ thể, người dùng nhanh chóng nhận thành phẩm đúng như mong muốn sau vài giy. Nếu không thích giọng văn hiện tại, họ ra lệnh AI thay đổi, tinh chỉnh từng từ, chi tiết. Đôi khi, chatbot thay con người biên tập, nng cấp bản thảo thành phiên bản hoàn chỉnh. Tùy cu lệnh, trí tuệ nhn tạo \"sáng tác\" một quyển tiểu thuyết hay một bài thơ mà không cần dàn ý, miễn được biết đề tài. [...] Không riêng văn học, trí tuệ nhn tạo cũng len lỏi vào lĩnh vực báo chí. Tháng 10/2025, Viện nghiên cứu Reuters Institute công bố kết quả khảo sát thái độ của 12.000 người ở sáu quốc gia gồm Argentina, Đan Mạch, Pháp, Nhật Bản, Anh và Mỹ về vai trò của AI trong ngành báo chí, xã hội. Kết quả, 33% người cho biết thoải mái với việc dùng AI để viết báo, 41% người chọn đọc tiêu đề của AI. Hoạt động được nhiều người chấp nhận nhất (55%) là nhờ AI sửa chính tả, ngữ pháp cho tin.",
+                "score": 0.53692055
+              },
+              {
+                "title": "Bị tẩy chay vì dùng AI thay công nhân - Báo VnExpress Đời sống",
+                "url": "https://vnexpress.net/bi-tay-chay-vi-dung-ai-thay-cong-nhan-5137993.html",
+                "source": "vnexpress.net",
+                "summary": "VnExpress - Bao tieng Viet nhieu nguoi xem nhat    Thứ năm, 29/10/2026  \n\nMới nhất \n\nTin theo khu vực \n\n Hà Nội\n TP HCM\n\nInternational\n \n\n Trở lại Đời sống\n\n Đời sống\n Nhịp sống\n\nThứ năm, 29/10/2026, 08:46 (GMT+7)\n\n## Bị tẩy chay vì dùng AI thay công nhn\n\n# Bị tẩy chay vì dùng AI thay công nhn\n\nTrung Quốc- Thương hiệu tương ớt Lão Cán Ma đối mặt làn sóng tẩy chay sau thông tin dùng trí tuệ nhn tạo (AI) thay thế hàng trăm công nhn phn loại ớt. [...] Về mặt công nghệ, hệ thống AI của Lão Cán Ma hiện được triển khai tại cơ sở Changming ở Quý Dương. Các camera công nghiệp sẽ quét băng chuyền mỗi 0,3 giy để nhận diện quả ớt bị mốc hoặc có đốm đen, sau đó dùng luồng khí áp lực cao thổi bay quả lỗi. Theo lời ông Li, tỷ lệ sản phẩm lỗi ở các công đoạn then chốt đã giảm xuống chỉ còn 0,02%. [...] Sự việc của Lão Cán Ma là ví dụ điển hình cho bài toán tiến thoái lưỡng nan tại Trung Quốc: đẩy mạnh ứng dụng AI nhưng phải bảo vệ thị trường việc làm. Tính đến cuối năm 2025, hơn 30% doanh nghiệp sản xuất quy mô lớn tại nước này đã đưa AI vào nhà máy.",
+                "score": 0.37332788
+              },
+              {
+                "title": "Được định giá tỷ USD, có 12 triệu người dùng, tại sao startup chatbot AI này vẫn phải đệ đơn xin phá sản?",
+                "url": "https://genk.vn/duoc-dinh-gia-ty-usd-co-12-trieu-nguoi-dung-tai-sao-startup-chatbot-ai-nay-van-phai-de-don-xin-pha-san-165261014145541313.chn",
+                "source": "genk.vn",
+                "summary": "Về phía mình, Character.AI nhiều lần khẳng định họ đặt an toàn của người dùng lên hàng đầu. Đại diện công ty cho biết các nhn vật trên nền tảng do người dùng tạo ra và đều là hư cấu. Mỗi cuộc trò chuyện đều có cảnh báo nhắc người dùng không nên tin theo nhn vật khi cần lời khuyên chuyên môn. [...] Character.AI, startup chatbot từng được định giá 1 tỷ USD, vừa nộp đơn xin bảo hộ phá sản theo Chương 11 tại tòa án ở Wilmington, bang Delaware (Mỹ). Cùng lúc, công ty đồng ý bán một phần tài sản trí tuệ cho Walt Disney với giá 20 triệu USD, theo hồ sơ nộp lên tòa và thông tin từ Reuters. [...] Trong cuộc bán tài sản này, Disney đứng ở vị trí đáng chú ý. Hãng sẽ là bên đặt giá khởi điểm để mua giấy phép vĩnh viễn, không độc quyền, đối với tài sản trí tuệ của Character.AI, còn các bên khác vẫn có thể trả giá cao hơn. Disney cũng đã nhận một số nhn sự kỹ thuật của startup, trong đó có cựu CEO Karandeep Anand, người vừa được bổ nhiệm làm giám đốc công nghệ của Disney hồi đầu tháng này. Đáng nói, vào tháng 9 năm 2025, chính Disney từng gửi thư yêu cầu Character.AI ngừng dùng các nhn vật",
+                "score": 0.17891318
+              }
+            ]
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "trí tuệ nhân tạo",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "trí tuệ nhân tạo",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "MINI PC AI ASUS ASCENT GX10 NVIDIA Blackwell GPU",
+                "summary": "MINI PC AI ASUS ASCENT GX10 NVIDIA Blackwell GPU\n\nASUS Ascent GX10 là Mini PC AI chuyên dụng dành cho nhà phát triển, kỹ sư dữ liệu và người nghiên cứu trí tuệ nhân tạo.\nXem ngay tại : https://t.co/MmhAFsxIma\n#hoanghapc #asusascentgx10 https://t.co/vHR1OPeaAH",
+                "url": "https://x.com/hoanghapcvn/status/2120337960210198720",
+                "source": "@hoanghapcvn",
+                "date": "Wed Nov 11 02:08:58 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "2"
+                }
+              },
+              {
+                "title": "Một mã chứng khoán đã bị chứng khoán tự doanh mua ròng với số lượng lớn trong phiên giao dịch ngày 10 tháng 11.",
+                "summary": "Một mã chứng khoán đã bị chứng khoán tự doanh mua ròng với số lượng lớn trong phiên giao dịch ngày 10 tháng 11.\n\n• Sự kiện này khiến giá trị giao dịch đạt mức đột biến, gần đạt ngưỡng 300 tỷ đồng trong phiên đó.\n• Tin tức này được đăng tải trên nguồn tin tức tài chính CafeF — Chứng khoán.\n\nTin công nghệ cập nhật trong ngày, số liệu và nguồn ghi ngay trong video.\n\n❓ Anh chị quan tâm tin AI nào nhất tuần này?\n\n#congnghe #AI #trí tuệ nhân tạo #vipzone #nguyenchitrongnghia #congngheAI #dautuCongNghe #tinCongNghe",
+                "url": "https://x.com/hoatanhoano/status/2120332786452295856",
+                "source": "@hoatanhoano",
+                "date": "Wed Nov 11 01:48:24 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "25"
+                }
+              },
+              {
+                "title": "Cả 7 nhà sáng lập Anthropic chuẩn bị bỏ túi khoảng 250 triệu đô mỗi người khi công ty lên sàn.",
+                "summary": "Cả 7 nhà sáng lập Anthropic chuẩn bị bỏ túi khoảng 250 triệu đô mỗi người khi công ty lên sàn.\nCon số này nghe mà choáng, nhất là khi so với quãng thời gian khá ngắn để một công ty AI đạt được định giá như vậy.\nNó cũng cho thấy dòng tiền đang đổ vào lĩnh vực trí tuệ nhân tạo mạnh đến mức nào.\nChuyện ai cũng thành triệu phú đô la sau một thương vụ IPO luôn là đề tài khiến người ta vừa ngưỡng mộ vừa suy nghĩ.\nMột mặt là thành quả xứng đáng cho những người dám đi trước.\nMặt khác, câu hỏi đặt ra là giá trị đó có bền vững hay chỉ là bong bóng công nghệ nhất thời.\nDù sao thì đây vẫn là cột mốc đáng chú ý của cả ngành AI.\n\nhttps://t.co/l0PYlXmY8H",
+                "url": "https://x.com/boen2207/status/2120312231493870061",
+                "source": "@boen2207",
+                "date": "Wed Nov 11 00:26:44 +0000 2026",
+                "metrics": {
+                  "favorites": 2,
+                  "retweets": 0,
+                  "views": "41"
+                }
+              },
+              {
+                "title": "Cách tui tạo dựng cơ đồ",
+                "summary": "Cách tui tạo dựng cơ đồ\n\nXưa mới khởi nghiệp, tui nằm lòng câu “đi từng ngõ, gõ từng nhà”. Tui đi tới từng đại lý xa xôi hẻo lánh để tiếp thị. Mỗi ngày gặp cả chục người, ăn cơm bụi lề đường, chạy chiếc Wave Alpha đỏ đến độ chỉ một năm thôi mà kim đồng hồ đã chỉ cả chục ngàn cây số. Tới một tỉnh là tui thuê hotel bình dân ở cả tháng, thuê xe máy chạy khắp các xã các huyện, không sót địa phương nào. Trong quá trình gặp gỡ, với mọi khách hàng, tui đon đả, cười nói anh của em, chị của em, gần như quỳ lạy để họ thương. Mà lúc đó họ kêu tui quỳ thì tui cũng quỳ liền á, miễn sao có khách bán hàng. Mình mới 25 tuổi, nhỏ xíu xiu, lập nghiệp có cái gì trong tay đâu. Không quan hệ, không hậu duệ, không tiền tệ, nothing. Tất cả chỉ là mấy cái chữ nghĩa đọc sách và vài ba kiến thức trong trường. Không ai hướng dẫn, không ai đỡ đầu, cũng chẳng có ai cho vay mượn. Với khách hàng lớn, tui nhắm thấy họ có thể mua được nhiều hàng thì tui ăn nhậu hát hò nịnh bợ với họ đến ói mửa, kiệt sức. Mà lần nào ói xanh mặt xong cũng nói: “Anh chị giúp em lấy một đơn hàng nhen, trả tiền mặt giúp em, em mới mở công ty, giờ em chưa có tiền cho anh chị nợ. Giờ anh chị kêu em làm gì em cũng làm hết, mong anh mong chị giúp em”. Nhiệm vụ chính phải nhớ trong đầu, nên dù say nằm lăn quay, tui vẫn thều thào nói được mấy câu đó á.\n\nCòn với nhà cung cấp thì tui cũng nịnh họ ghê lắm. Gặp đối tác dùng hết chữ nghĩa trí tuệ ra thuyết phục, để họ cho tui giá tốt, cho nợ. Có lần tui nhập một lô hàng lớn, đối tác Trung Quốc nhất quyết bắt tui trả trước, cứ phải T/T in advance. Tui nhắn tin, gửi email đàm phán cỡ nào họ cũng không chịu. Vì họ là nhà máy lớn, không quan tâm người mua nhỏ cỡ tui. Tui bay qua, sáng lên chờ trong văn phòng nhà máy họ suốt hai ngày liền. Thấy mặt tui chán quá nên ông chủ mới chịu gặp. Tui lúc đó có nói được tiếng Trung mẹ gì đâu, ông chủ kia thì không nói được tiếng Anh, phải nhờ con bé thư ký dịch giùm. Lúc nhậu, ổng mời rượu 53 độ, mời ly nào là tui uống cạn ly đó. Say rồi vẫn nói: “Ông làm ơn đừng bắt tui trả trước lô hàng này được không. Lô hàng này tới 10.000 đô, là một số tiền khổng lồ với tui. Tui mới có 25 tuổi thôi, như con như cháu của ông thôi, mong ông giúp tui khởi nghiệp đi”. Ổng im lặng không nói gì. Ngày hôm sau, ổng gửi tui hợp đồng, điều chỉnh điều khoản thanh toán thành “T/T after shipment”, tức là tui nhận hàng trước, thanh toán sau khi hàng được giao theo thỏa thuận. Khi bán hàng xong, tui gom hết tiền, chạy tức tốc lên ngân hàng đánh lệnh chuyển cho ổng liền. Sau này làm ăn thân quen, tui hỏi thì ổng nói: “Bữa đó thấy mày tội quá. Nếu mày không trả thì coi như tao lì xì mày 10.000 đô”. Rồi ổng còn giới thiệu thêm các đối tác khác cho tui. Khởi nghiệp tui đơn giản chỉ có vậy thôi. \n\n*Khi bắt đầu sang X, tui xem như là khởi nghiệp nên trân trọng từng người. Tui nhắn riêng mời hết, để qua X này đông chút cho các bé có cơ hội làm ăn, giao thương, hợp tác, học hành.\n\nNên các bé hiểu công sức của tui, kết giao hết với mọi người trên X nhen. Hễ ai có hình ảnh, tên tuổi rõ ràng thì mình chủ động tương tác, bình luận, chào hỏi. Mình có gì trong tay đâu, nên các mối quan hệ chính là tài sản lớn.\n\n**Càng nhiều bạn bè, càng nhiều người thương và tin thì mình muốn nghèo cũng không được.",
+                "url": "https://x.com/Tony_Buoi_Sang/status/2120337019679518952",
+                "source": "@Tony_Buoi_Sang",
+                "date": "Wed Nov 11 02:05:14 +0000 2026",
+                "metrics": {
+                  "favorites": 22,
+                  "retweets": 3,
+                  "views": "830"
+                }
+              },
+              {
+                "title": "NEWSOM KHOE KINH TẾ CALIFORNIA TĂNG 1.500 TỶ USD",
+                "summary": "NEWSOM KHOE KINH TẾ CALIFORNIA TĂNG 1.500 TỶ USD\n\nNgày 10/11/2026, Thống đốc Gavin Newsom tuyên bố kinh tế California đã tăng thêm hơn 1.500 tỷ USD kể từ khi ông nhậm chức năm 2019.\n\nÔng cũng cho biết nguồn thu từ ba loại thuế lớn nhất của tiểu bang đã vượt dự báo 7,7 tỷ USD trong năm 2026.\n\nĐây là những con số đáng chú ý, phản ánh sức mạnh kinh tế của California, đặc biệt trong các ngành công nghệ, trí tuệ nhân tạo và đầu tư.\n\nTuy nhiên, bên cạnh những thành tích được công bố, California vẫn còn nhiều vấn đề nghiêm trọng liên quan đến chi tiêu công, nhà ở và hiệu quả quản lý.\n\nĐƯỜNG SẮT CAO TỐC: DỰ TOÁN TĂNG GẦN 95 TỶ USD\n\nNăm 2008, California thông qua dự án đường sắt cao tốc nối San Francisco và Los Angeles với dự toán ban đầu khoảng 33 tỷ USD.\n\nĐến năm 2026, tổng chi phí dự kiến đã tăng lên khoảng 128 tỷ USD, trong khi tiến độ hoàn thành tiếp tục bị đẩy lùi nhiều năm.\n\nDự án bắt đầu trước nhiệm kỳ Newsom, nhưng dưới thời ông, những khó khăn về tài chính và tiến độ vẫn chưa được giải quyết.\n\nĐiều đáng nói là đến tháng 9/2026, California vẫn chưa đặt đường ray cao tốc cho dự án.\n\nGẦN 24 TỶ USD DÀNH CHO VẤN ĐỀ VÔ GIA CƯ – KIỂM TOÁN PHÁT HIỆN THIẾU GIÁM SÁT\n\nTheo báo cáo năm 2024 của California State Auditor, tiểu bang đã phân bổ gần 24 tỷ USD cho các chương trình nhà ở và hỗ trợ người vô gia cư trong giai đoạn 2018–2023.\n\nTuy nhiên, cơ quan kiểm toán phát hiện California không theo dõi và đánh giá đầy đủ kết quả của nhiều chương trình.\n\nNăm 2024, California ghi nhận hơn 187.000 người vô gia cư, chiếm khoảng 24% tổng số người vô gia cư trên toàn nước Mỹ.\n\nDữ liệu sơ bộ năm 2026 cho thấy tình hình đã có dấu hiệu cải thiện, đặc biệt đối với số người sống ngoài đường. Dù vậy, khả năng đánh giá hiệu quả của những khoản chi ngân sách lớn vẫn là vấn đề cần được giám sát.\n\nNGÂN SÁCH CÂN BẰNG NHƯNG VẪN THIẾU HỤT VẬN HÀNH\n\nChính quyền Newsom công bố California đã cân bằng ngân sách năm 2026–27.\n\nTuy nhiên, Văn phòng Phân tích Lập pháp California (LAO) cho biết tiểu bang vẫn có khoản thiếu hụt vận hành ước tính khoảng 18,5 tỷ USD trong năm tài chính này.\n\nNguyên nhân là các khoản chi thường xuyên cao hơn doanh thu thường xuyên, buộc tiểu bang phải dựa vào số dư tài chính từ những năm trước.\n\nGIÁ NHÀ GẦN 900.000 USD – NHIỀU GIA ĐÌNH KHÓ MUA NHÀ\n\nTheo California Association of Realtors, giá trung vị nhà riêng tại California trong quý III/2026 vào khoảng 894.630 USD.\n\nChỉ khoảng 19% hộ gia đình đủ khả năng mua nhà ở mức giá trung vị.\n\nTrong khi các tập đoàn công nghệ tiếp tục tạo ra hàng trăm tỷ USD giá trị kinh tế, nhiều người lao động vẫn phải đối mặt với chi phí sinh hoạt và nhà ở thuộc nhóm cao nhất nước Mỹ.\n\nKINH TẾ TĂNG TRƯỞNG LÀ ĐIỀU TÍCH CỰC. NHƯNG TĂNG TRƯỞNG KHÔNG THỂ THAY THẾ TRÁCH NHIỆM GIẢI TRÌNH VỀ TIỀN THUẾ CỦA NGƯỜI DÂN.\n\nCalifornia có những thế mạnh kinh tế rất lớn và vẫn là một trung tâm công nghệ quan trọng hàng đầu thế giới.\n\nTuy nhiên, những thành tựu đó không làm mất đi nhu cầu kiểm tra tiến độ các dự án công, hiệu quả chương trình vô gia cư, tính bền vững của ngân sách và khả năng mua nhà của người dân.\n\nĐó là những vấn đề mà chính quyền Newsom cùng cơ quan lập pháp và các chính quyền địa phương cần tiếp tục giải trình.\n\nNguồn: Văn phòng Thống đốc California, 10/11/2026; California State Auditor, 2024; Legislative Analyst’s Office, 2026; CalMatters, 9/2026; HUD; California Association of Realtors, quý III/2026.\n\n#GavinNewsom #California #CaliforniaEconomy #HighSpeedRail #Homelessness #HousingCrisis #StateBudget #ChinhTriMy #NuocMyHomNay",
+                "url": "https://x.com/NuocMyHomNay/status/2120312566316519800",
+                "source": "@NuocMyHomNay",
+                "date": "Wed Nov 11 00:28:03 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "28"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM05_multiturn_calculator",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_calculator",
+        "difficulty": "medium",
+        "what_it_tests": "Multi-turn gọi tool mới calculator sau lượt nói đầu."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mình cần tính toán một số liệu tài chính"
+        },
+        {
+          "role": "user",
+          "content": "Tính giúp mình (50 * 4) + 120"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(50 * 4) + 120"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "calculator",
+            "args": {
+              "expression": "(50 * 4) + 120"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "calculator",
+          "args": {
+            "expression": "(50 * 4) + 120"
+          },
+          "result": {
+            "status": "ok",
+            "expression": "(50 * 4) + 120",
+            "result": 320
+          }
+        }
+      ]
+    }
+  ]
+}
