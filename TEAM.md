@@ -84,21 +84,22 @@ report/team/MSSV_HoTen.md
 
 ### Phần việc phụ trách
 - Checkpoint phụ trách: CP3 (Custom Tool & Unit Tests).
-- Phát triển 01 Custom Tool hoàn chỉnh (`save_note`) thuộc Track chuyên sâu (CP3).
-- Soạn thảo tài liệu đặc tả công cụ `TOOL.md` và đăng ký trong `starter_v0/tools/__init__.py` và `starter_v0/artifacts/tools.yaml`.
-- Viết $\ge 3$ Unit Tests trong `starter_v0/tests/test_tools_todo.py` và bảo đảm `pytest` vượt qua 100%.
+- Phát triển tool `save_note` để lưu ghi chú nghiên cứu cục bộ, kèm tài liệu, khai báo và đăng ký tool.
+- Viết unit test cho các luồng chính, guardrail và nhánh lỗi của `save_note`.
 
 ### Đóng góp cụ thể
-- Xây dựng hoàn chỉnh công cụ `save_note` tại `starter_v0/tools/save_note/tool.py` cho phép lưu ghi chú/tóm tắt nghiên cứu ra thư mục `notes/` dưới định dạng Markdown, tự động chuẩn hóa đuôi `.md`.
-- Thiết lập các tầng phòng vệ an toàn nghiêm ngặt (Guardrails): chặn path traversal (`..`, `/`, `\`), từ chối chuỗi rỗng; chặn lách xác nhận bằng chuỗi boolean `"false"`; cơ chế an toàn yêu cầu xác nhận `overwrite_confirmed=True` trước khi ghi đè file cũ.
-- Viết 10 unit tests độc lập trong `starter_v0/tests/test_tools_todo.py` bao phủ happy path, kiểm tra guardrail và các nhánh lỗi ngoại lệ.
-- Hoàn thiện nội dung Mục A2 và Mục B5a trong `group_report.md` trên nhánh `origin/feature/CP3`.
+- Xây dựng công cụ `save_note` tại `starter_v0/tools/save_note/tool.py` để lưu ghi chú/tóm tắt Markdown trong thư mục `notes/`, tự động chuẩn hóa đuôi file.
+- Thêm guardrail chặn path traversal và input rỗng; chỉ ghi khi `confirmed` là boolean `True`; nếu file đã tồn tại thì không ghi đè cho tới khi người dùng xác nhận riêng qua `overwrite_confirmed=True`.
+- Tạo `TOOL.md`, đăng ký tool trong `starter_v0/tools/__init__.py` và khai báo schema/description trong `starter_v0/artifacts/tools.yaml`.
+- Viết 10 unit test cho happy path, input không hợp lệ, xác nhận sai kiểu, ghi đè cần xác nhận và lỗi filesystem; cập nhật system prompt để hướng agent tuân thủ các bước xác nhận.
+- Cập nhật bằng chứng CP3 trong báo cáo nhóm.
 
 ### Bằng chứng
 - Thư mục công cụ: `starter_v0/tools/save_note/` (`tool.py`, `TOOL.md`).
 - File unit test: `starter_v0/tests/test_tools_todo.py` (10 tests cho `save_note`).
-- Commit cá nhân: `56384df` và `02ba4be` trên nhánh `origin/feature/CP3`.
+- Commit cá nhân: `56384df` và `02ba4be` trên nhánh `feature/CP3`.
 - Báo cáo cá nhân: [`report/team/2A202603935_VuQuangHai.md`](report/team/2A202603935_VuQuangHai.md).
+- Kiểm thử: 10 test `save_note` và 60 test contract pass; toàn suite có 77 passed, 14 skipped (TODO ở các tool khác).
 
 ---
 
