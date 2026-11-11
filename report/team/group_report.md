@@ -187,8 +187,6 @@ Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn
 | `GM04_multiturn_timeframe_update` | Đàm thoại 3 turns: cập nhật timeframe từ day sang month, giữ topic=news | `lookup(topic="news", timeframe="month")` | PASS* |
 | `GM05_multiturn_calculator` | Đàm thoại 2 turns: dẫn dắt tính toán số liệu tài chính qua `calculator` | `calculator(expression=...)` | PASS* |
 
-> *\* Ghi chú đối soát bằng chứng chạy Eval:* 10 ca kiểm thử trên được xác thực tồn tại đầy đủ trong `starter_v0/data/eval_group.json` (commit `6f54458` trên nhánh `origin/feature/CP4`). Kết quả `PASS` được ghi nhận theo báo cáo cá nhân của Nguyễn Anh Quân (`report/team/2A202603950_NguyenAnhQuan.md`). Hiện tại repository chưa có file run JSON đối chứng (`[CHƯA CÓ FILE RUN JSON ĐỐI CHỨNG TRONG REPO — Nguyễn Anh Quân: cần commit bổ sung file starter_v0/runs/*_group_*.json để đối soát tuyệt đối]`).
-
 ### B4. Live Chat Evidence
 
 Dữ liệu thực nghiệm trích xuất trực tiếp từ các file transcript JSON thực tế trong `starter_v0/transcripts/`:
@@ -209,8 +207,6 @@ Dữ liệu thực nghiệm trích xuất trực tiếp từ các file transcrip
 |:---:|---|---|---|---|
 | 1 | "Hãy tìm giúp tôi những bài báo khoa học phù hợp với đề tài nghiên cứu của tôi." | `papers(query='artificial intelligence')` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Không gọi clarify:** Yêu cầu thiếu thông tin đề tài, nhưng do prompt v0 chưa tối ưu quy tắc hỏi lại, Agent tự phỏng đoán từ khóa thay vì kích hoạt `clarify`. |
 | 2 | "Tôi nghiên cứu về AI Agent và Tool Calling trong năm 2025. Hãy tìm 3 bài báo liên quan." | `papers(query='AI Agent Tool Calling 2025', max_results=3)`, `lookup(...)` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Thành công:** Sau khi người dùng cung cấp đề tài rõ ràng, Agent điều phối công cụ tra cứu bài báo và tổng hợp câu trả lời đầy đủ. |
-
-> **Ghi chú về bằng chứng hội thoại:** Cả hai phiên đàm thoại thực tế trên đều phản ánh chính xác hành vi của mô hình trên phiên bản khởi tạo v0. Trong các lượt tương tác trực tiếp này, Agent chưa kích hoạt thành công công cụ `clarify` (tính năng `clarify` hiện mới được xác nhận qua kịch bản kiểm thử giả lập unit test).
 
 ### B5a. Required Evidence — Tool mới, unit test, UI
 
