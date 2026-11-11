@@ -187,6 +187,7 @@ Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn
 | `GM04_multiturn_timeframe_update` | Đàm thoại 3 turns: cập nhật timeframe từ day sang month, giữ topic=news | `lookup(topic="news", timeframe="month")` | PASS* |
 | `GM05_multiturn_calculator` | Đàm thoại 2 turns: dẫn dắt tính toán số liệu tài chính qua `calculator` | `calculator(expression=...)` | PASS* |
 
+*Bằng chứng chạy thực tế bộ eval nhóm:* [`starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json`](../../starter_v0/runs/v3_B_group_openrouter_20261111T091359077950.json) (đạt độ chính xác 90% — 9/10 passed trên OpenRouter với Artifacts v3).
 
 ### B4. Live Chat Evidence
 
@@ -265,9 +266,9 @@ Chỉ điền nếu nhóm làm bonus (ghi riêng, tối đa 10 điểm, xem [RUB
 ## 6. Tổng hợp đóng góp
 
 Chi tiết đóng góp và bằng chứng của từng thành viên được phân định rõ ràng trong [TEAM.md](../../TEAM.md) và các file báo cáo cá nhân:
-- **Nguyễn Đức Hải:** `[CHƯA CÓ THÔNG TIN — Nguyễn Đức Hải: chưa tạo file report/team/MSSV_NguyenDucHai.md]` *(Leader, Quản trị version, Tối ưu Prompt & Schema v1–v3, Checkpoint CP1, CP2)*
+- **Nguyễn Đức Hải:** [`report/team/2A202603943_NguyenDucHai.md`](2A202603943_NguyenDucHai.md) *(Leader, Quản trị version, Tối ưu Prompt & Schema v1–v3, Checkpoint CP1, CP2)*
 - **Nguyễn Anh Quân:** [`report/team/2A202603950_NguyenAnhQuan.md`](2A202603950_NguyenAnhQuan.md) *(Analyst, Phân tích log lỗi benchmark, Thiết kế 10 eval cases nhóm, Checkpoint CP1, CP4)*
-- **Vũ Quang Hải:** `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải: chưa tạo file report/team/MSSV_VuQuangHai.md]` *(Tool Developer, Phát triển Custom Tool `save_note` & 10 Unit Tests, Checkpoint CP3)*
+- **Vũ Quang Hải:** [`report/team/2A202603935_VuQuangHai.md`](2A202603935_VuQuangHai.md) *(Tool Developer, Phát triển Custom Tool `save_note` & 10 Unit Tests, Checkpoint CP3)*
 - **Tăng Nguyễn Hải Đăng:** [`report/team/2A202603916_TangNguyenHaiDang.md`](2A202603916_TangNguyenHaiDang.md) *(UI, Adapter an toàn, Lưu vết Transcripts & Báo cáo kỹ thuật, Checkpoint CP5)*
 
 ---

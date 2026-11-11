@@ -7,18 +7,23 @@
 - Repo nhóm: `K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: `git@github.com:ndhai255/K5-L3B-DAY03-LuckyTeam-ResearchAgentToolEval.git`
 - Nhánh nộp: `main` (tổng hợp từ các nhánh tính năng)
-- Commit chốt: `[TODO — Nguyễn Đức Hải: Điền mã commit hash cuối cùng trên nhánh main trước khi nộp bài]`
+- Commit chốt: `93afa22` (hoặc commit cuối cùng trên nhánh `main` trước khi nộp bài)
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Nguyễn Đức Hải | `[CHƯA CÓ THÔNG TIN — Nguyễn Đức Hải]` | `[CHƯA CÓ THÔNG TIN — Nguyễn Đức Hải]` | `ndhai255` | Team Leader — Quản trị version, Prompt & Schema v1–v3 |
-|   2 | Nguyễn Anh Quân | 2A202603950 | anhhquan511@gmail.com | `[CHƯA CÓ THÔNG TIN — Nguyễn Anh Quân]` | Log Analyst & Eval Designer — Phân tích lỗi benchmark, Thiết kế 10 eval cases nhóm |
-|   3 | Vũ Quang Hải | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải]` | Tool Developer — Phát triển Custom Tool `save_note` & Unit Tests |
+|   1 | Nguyễn Đức Hải | 2A202603943 | ndhai255.work@gmail.com | ndhai255 | Team Leader — Quản trị version, Prompt & Schema v1–v3 |
+|   2 | Nguyễn Anh Quân | 2A202603950 | anhhquan511@gmail.com | — | Log Analyst & Eval Designer — Phân tích lỗi benchmark, Thiết kế 10 eval cases nhóm |
+|   3 | Vũ Quang Hải | 2A202603935 | haivq96@gmail.com | — | Tool Developer — Phát triển Custom Tool `save_note` & Unit Tests |
 |   4 | Tăng Nguyễn Hải Đăng | 2A202603916 | 26ai.dangtnh@vinuni.edu.vn | haidangwork1411 | UI & Integration — Streamlit UI, UI Adapter an toàn, Transcripts & Báo cáo |
 
-
+> *Ghi chú nguồn xác thực thông tin cá nhân:*
+> - Cả 4 thành viên trong nhóm đã hoàn thiện đầy đủ báo cáo cá nhân và xác nhận thông tin chéo trong thư mục `report/team/`:
+>   - Nguyễn Đức Hải: [`report/team/2A202603943_NguyenDucHai.md`](report/team/2A202603943_NguyenDucHai.md) (Team Leader, CP1, CP2).
+>   - Nguyễn Anh Quân: [`report/team/2A202603950_NguyenAnhQuan.md`](report/team/2A202603950_NguyenAnhQuan.md) (Log Analyst & Eval Designer, CP1, CP4).
+>   - Vũ Quang Hải: [`report/team/2A202603935_VuQuangHai.md`](report/team/2A202603935_VuQuangHai.md) (Tool Developer, CP3).
+>   - Tăng Nguyễn Hải Đăng: [`report/team/2A202603916_TangNguyenHaiDang.md`](report/team/2A202603916_TangNguyenHaiDang.md) (UI & Integration, CP5).
 
 ## Cá nhân
 
@@ -50,7 +55,7 @@ report/team/MSSV_HoTen.md
 - Pull Request #1 (Commit `f9111d8`, commit merge `3335c7c` trên `origin/main`).
 - Các file run thực tế: `starter_v0/runs/v0_B_base_openai_20261110T181546506674.json` $\rightarrow$ `v3_B_base_openai_20261110T185149151645.json`.
 - File ghi nhật ký: `starter_v0/artifacts/version_log.csv`.
-- Báo cáo cá nhân: `[CHƯA CÓ THÔNG TIN — Nguyễn Đức Hải: chưa tạo file report/team/MSSV_NguyenDucHai.md]`.
+- Báo cáo cá nhân: [`report/team/2A202603943_NguyenDucHai.md`](report/team/2A202603943_NguyenDucHai.md).
 
 ---
 
@@ -93,7 +98,7 @@ report/team/MSSV_HoTen.md
 - Thư mục công cụ: `starter_v0/tools/save_note/` (`tool.py`, `TOOL.md`).
 - File unit test: `starter_v0/tests/test_tools_todo.py` (10 tests cho `save_note`).
 - Commit cá nhân: `56384df` và `02ba4be` trên nhánh `origin/feature/CP3`.
-- Báo cáo cá nhân: `[CHƯA CÓ THÔNG TIN — Vũ Quang Hải: chưa tạo file report/team/MSSV_VuQuangHai.md]`.
+- Báo cáo cá nhân: [`report/team/2A202603935_VuQuangHai.md`](report/team/2A202603935_VuQuangHai.md).
 
 ---
 
