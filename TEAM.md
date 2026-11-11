@@ -14,7 +14,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Nguyễn Đức Hải | 2A202603943 | ndhai255.work@gmail.com | ndhai255 | Team Leader — Quản trị version, Prompt & Schema v1–v3 |
-|   2 | Nguyễn Anh Quân | 2A202603950 | anhhquan511@gmail.com | — | Log Analyst & Eval Designer — Phân tích lỗi benchmark, Thiết kế 10 eval cases nhóm |
+|   2 | Nguyễn Anh Quân | 2A202603950 | anhhquan511@gmail.com | anhhquan511 | Log Analyst & Eval Designer — Phân tích lỗi benchmark, Thiết kế 10 eval cases nhóm |
 |   3 | Vũ Quang Hải | 2A202603935 | haivq96@gmail.com | HaiVuQ | Tool Developer — Phát triển Custom Tool `save_note` & Unit Tests |
 |   4 | Tăng Nguyễn Hải Đăng | 2A202603916 | 26ai.dangtnh@vinuni.edu.vn | haidangwork1411 | UI & Integration — Streamlit UI, UI Adapter an toàn, Transcripts & Báo cáo |
 

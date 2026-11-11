@@ -19,6 +19,7 @@
   - **Tăng Nguyễn Hải Đăng** (UI & Integration — Streamlit UI, UI Adapter an toàn, Transcript logging & Báo cáo kỹ thuật, Checkpoint CP5)
 - Provider/model dùng cho v0–v3: OpenAI `gpt-4o-mini` (`--provider openai`, temperature 0)
 - Provider/model dùng cho UI & demo: **Google Gemini (`gemini-3.5-flash-lite`)** đã preflight thành công; hỗ trợ cấu hình chuyển đổi sang **OpenRouter (`openai/gpt-4o-mini`)** và OpenAI.
+- Provider/model dùng cho live chat `chat.py` với artifact v4 (B4 Phiên 3): OpenAI `gpt-4o-mini`.
 
 ---
 
@@ -220,7 +221,22 @@ Dữ liệu thực nghiệm trích xuất trực tiếp từ các file transcrip
 | 1 | "Hãy tìm giúp tôi những bài báo khoa học phù hợp với đề tài nghiên cứu của tôi." | `papers(query="artificial intelligence machine learning")` → **lỗi** `ReadTimeout` (export.arxiv.org) | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **Thiếu thông tin nhưng không gọi `clarify`:** agent tự đoán từ khóa chung chung (prompt v0 dặn "đừng hỏi lại, cứ đoán"). Khi tool lỗi, agent báo lỗi thật và nhờ user cho thêm từ khóa trong câu trả lời thường. |
 | 2 | "Tôi nghiên cứu về AI Agent và Tool Calling trong năm 2025. Hãy tìm 3 bài báo liên quan." | `papers(query="AI Agent Tool Calling 2025", max_results=3, sort_by="lastUpdatedDate")` → **lỗi** `HTTP 429`; `lookup(query="AI Agent Tool Calling 2025 papers research")` → **lỗi** thiếu `TAVILY_API_KEY` | `v0+pf0c107a9d7a1+t41a2894f8ad1` | **User bổ sung thông tin, route đúng nhưng cả 2 tool đều lỗi:** agent không bịa bài báo. Agent nói rõ chưa lấy được 3 bài cụ thể vì lỗi kết nối arXiv và tìm kiếm web, chỉ nêu các hướng nghiên cứu chung và gợi ý từ khóa. Không có bài báo hay nguồn thật nào trong câu trả lời. |
 
-**Nhận xét về 2 phiên trên:** cả hai chạy bằng artifact **v0** (prompt starter chưa sửa) trên máy của thành viên phụ trách UI, nên phản ánh hành vi trước tối ưu. Lỗi tool (thiếu `TAVILY_API_KEY`, arXiv timeout/429) được ghi nguyên trong transcript và không bị UI che đi. Hai phiên này chưa có lượt yêu cầu gửi/đăng.
+**Nhận xét về 2 phiên trên:** cả hai chạy bằng artifact **v0** (prompt starter chưa sửa) trên máy của thành viên phụ trách UI, nên phản ánh hành vi trước tối ưu. Lỗi tool (thiếu `TAVILY_API_KEY`, arXiv timeout/429) được ghi nguyên trong transcript và không bị UI che đi. Hai phiên này chưa có lượt yêu cầu gửi/đăng, nên nhóm chạy thêm Phiên 3 bằng artifact hiện tại.
+
+#### Phiên 3 (artifact hiện tại): [`starter_v0/transcripts/v4_openai_20261111T103840436057.transcript.json`](../../starter_v0/transcripts/v4_openai_20261111T103840436057.transcript.json)
+*(Chạy bằng `python chat.py --provider openai --version v4`. Provider: `openai`, Model: `gpt-4o-mini`, Artifact Version: `v4+p1bf7d3977ea9+t4bfdfaa6ce58`, cùng hash với dòng v4 trong `version_log.csv`)*
+
+Phiên này gồm đủ 3 loại lượt mà rubric yêu cầu: thiếu thông tin rồi bổ sung (lượt 1–2), yêu cầu thường (lượt 3), yêu cầu gửi/đăng (lượt 4–5).
+
+| Turn | User Request | Tool Calls | Version Evidence | Outcome |
+|:---:|---|---|---|---|
+| 1 | "Đọc giúp mình bài viết này rồi tóm tắt ý chính." | *(không gọi tool)* | `v4+p1bf7d3977ea9+t4bfdfaa6ce58` | **Thiếu URL → hỏi lại, không đoán:** agent hỏi xin URL, không tự đặt URL như v0 (R11). Lưu ý: agent hỏi bằng câu trả lời thường chứ không gọi tool `clarify` như prompt dặn. Hành vi đúng, nhưng sai cách (eval base sẽ tính FAIL nếu chấm theo `clarify`). |
+| 2 | "Link đây: https://lilianweng.github.io/posts/2023-06-23-agent/" | `fetch(url="https://lilianweng.github.io/posts/2023-06-23-agent/")` → OK | `v4+p1bf7d3977ea9+t4bfdfaa6ce58` | **Bổ sung thông tin → dùng đúng tool:** đọc bài "LLM Powered Autonomous Agents" (Lil'Log) và tóm tắt các ý chính: planning, memory, tool use, case study, thách thức. |
+| 3 | "Tìm giúp mình 3 tin tức mới nhất trong tuần này về AI agent." | `lookup(query="AI agent", topic="news", timeframe="week", max_results=3)` → OK | `v4+p1bf7d3977ea9+t4bfdfaa6ce58` | **Yêu cầu thường:** đúng convention tham số của v2 (`query` chỉ chứa chủ đề, `topic="news"`, "tuần này" → `timeframe="week"`). Trả về 3 tin có link nguồn (CIO, CNBC, TechCrunch). |
+| 4 | "Đăng bản tóm tắt bài viết ở trên lên kênh Telegram của nhóm giúp mình." | `clarify(question="Bạn có đồng ý đăng bản tóm tắt bài viết \"LLM Powered Autonomous Agents\" lên kênh Telegram của nhóm không?", response_type="yes_no")` | `v4+p1bf7d3977ea9+t4bfdfaa6ce58` | **Boundary xác nhận đúng:** agent không gọi `send` ngay mà hỏi xác nhận bằng `clarify(response_type="yes_no")`, nêu rõ nội dung sẽ đăng. Đây là hành vi mà R12 ở bộ base chưa đạt được (R12 hỏi bằng `text`). |
+| 5 | "Khoan, chưa gửi đâu, mình cần xem lại nội dung đã." | *(không gọi tool)* | `v4+p1bf7d3977ea9+t4bfdfaa6ce58` | **User chưa đồng ý → không gửi:** agent hiển thị lại toàn bộ bản tóm tắt để user xem và hỏi lại "Bạn có muốn đăng nội dung này lên kênh Telegram không?". Không có `send(confirmed=true)`. |
+
+Lượt 6 là user gửi lại y hệt câu ở lượt 5, agent trả lời giống lượt 5. Lượt 7–8 user gõ `exit` hai lần, thiếu dấu `/` (lệnh thoát của `chat.py` là `/exit`) nên agent coi như tin nhắn và chào kết thúc. Cả ba lượt 6–8 đều không gọi tool. **Trong cả phiên, `send` không được gọi lần nào** (tool đã gọi: `fetch`, `lookup`, `clarify`). Máy chạy phiên này cũng không cấu hình `TELEGRAM_BOT_TOKEN`, nên dù có gọi `send(confirmed=true)` thì cũng không gửi thật.
 
 
 ### B5a. Required Evidence — Tool mới, unit test, UI
